@@ -1,0 +1,9 @@
+apiVersion: storage.k8s.io/v1beta1
+kind: CSIDriver
+metadata:
+  name: csi.scaleway.com
+  labels:
+    {{- include "scaleway-csi.labels" . | nindent 4 }}
+spec:
+  attachRequired: true
+  podInfoOnMount: true

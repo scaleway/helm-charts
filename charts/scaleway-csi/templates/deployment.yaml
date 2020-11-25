@@ -1,0 +1,145 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "scaleway-csi.deploymentfullname" . }}
+  labels:
+    {{- include "scaleway-csi.labels" . | nindent 4 }}
+    {{- include "scaleway-csi.deploymentSelectorLabels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.deploymentReplicaCount }}
+  selector:
+    matchLabels:
+      {{- include "scaleway-csi.deploymentSelectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "scaleway-csi.deploymentSelectorLabels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ include "scaleway-csi.deployementServiceAccountName" . }}
+      priorityClassName: system-cluster-critical
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args :
+            - "--endpoint=$(CSI_ENDPOINT)"
+            - "--mode=controller"
+          env:
+            - name: CSI_ENDPOINT
+              value: unix:///var/lib/csi/sockets/pluginproxy/csi.sock
+          {{- if .Values.csiLivenessProbe.enabled }}
+          ports:
+            - name: healthz
+              containerPort: 9808
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: healthz
+            initialDelaySeconds: 10
+            timeoutSeconds: 3
+            periodSeconds: 2
+            failureThreshold: 5
+          {{- end }}
+          envFrom:
+            - secretRef:
+                name: scaleway-secret
+          volumeMounts:
+            - name: socket-dir
+              mountPath: /var/lib/csi/sockets/pluginproxy/
+          resources:
+            {{- toYaml .Values.deployment.resources | nindent 12 }}
+        {{- if .Values.csiProvisioner.enabled }}
+        - name: csi-provisioner
+          image: "{{ .Values.csiProvisioner.image.repository }}:{{ .Values.csiProvisioner.image.tag }}"
+          imagePullPolicy: {{ .Values.csiProvisioner.image.pullPolicy }}
+          args:
+            - "--csi-address=$(CSI_ADDRESS)"
+            - "--leader-election"
+            # we could maybe add a value for this
+            - "--feature-gates=Topology=true"
+            - "--default-fstype={{ .Values.defaultFSType }}"
+          env:
+            - name: CSI_ADDRESS
+              value: /var/lib/csi/sockets/pluginproxy/csi.sock
+          volumeMounts:
+            - name: socket-dir
+              mountPath: /var/lib/csi/sockets/pluginproxy/
+        {{- end }}
+        {{- if .Values.csiAttacher.enabled }}
+        - name: csi-attacher
+          image: "{{ .Values.csiAttacher.image.repository }}:{{ .Values.csiAttacher.image.tag }}"
+          imagePullPolicy: {{ .Values.csiAttacher.image.pullPolicy }}
+          args:
+            - "--csi-address=$(CSI_ADDRESS)"
+            - "--leader-election"
+          env:
+            - name: CSI_ADDRESS
+              value: /var/lib/csi/sockets/pluginproxy/csi.sock
+          volumeMounts:
+            - name: socket-dir
+              mountPath: /var/lib/csi/sockets/pluginproxy/
+        {{- end }}
+        {{- if .Values.csiSnapshotter.enabled }}
+        - name: csi-snapshotter
+          image: "{{ .Values.csiSnapshotter.image.repository }}:{{ .Values.csiSnapshotter.image.tag }}"
+          imagePullPolicy: {{ .Values.csiSnapshotter.image.pullPolicy }}
+          args:
+            - "--csi-address=$(CSI_ADDRESS)"
+            - "--leader-election"
+          env:
+            - name: CSI_ADDRESS
+              value: /var/lib/csi/sockets/pluginproxy/csi.sock
+          volumeMounts:
+            - name: socket-dir
+              mountPath: /var/lib/csi/sockets/pluginproxy/
+        {{- end }}
+        {{- if .Values.csiSnapshotController.enabled }}
+        - name: csi-snapshot-controller
+          image: "{{ .Values.csiSnapshotController.image.repository }}:{{ .Values.csiSnapshotController.image.tag }}"
+          imagePullPolicy: {{ .Values.csiSnapshotController.image.pullPolicy }}
+          args:
+            - "--leader-election"
+        {{- end }}
+        {{- if .Values.csiResizer.enabled }}
+        - name: csi-resizer
+          image: "{{ .Values.csiResizer.image.repository }}:{{ .Values.csiResizer.image.tag }}"
+          imagePullPolicy: {{ .Values.csiResizer.image.pullPolicy }}
+          args:
+            - "--csi-address=$(CSI_ADDRESS)"
+            - "--leader-election"
+          env:
+            - name: CSI_ADDRESS
+              value: /var/lib/csi/sockets/pluginproxy/mock.socket
+          volumeMounts:
+            - name: socket-dir
+              mountPath: /var/lib/csi/sockets/pluginproxy/
+        {{- end }}
+        {{- if .Values.csiLivenessProbe.enabled }}
+        - name: csi-liveness-probe
+          image: "{{ .Values.csiLivenessProbe.image.repository }}:{{ .Values.csiLivenessProbe.image.tag }}"
+          imagePullPolicy: {{ .Values.csiLivenessProbe.image.pullPolicy }}
+          args:
+            - "--csi-address=$(CSI_ADDRESS)"
+          env:
+            - name: CSI_ADDRESS
+              value: /csi/csi.sock
+          volumeMounts:
+            - name: socket-dir
+              mountPath: /csi
+        {{- end }}
+      volumes:
+        - name: socket-dir
+          emptyDir: {}
+      {{- with .Values.deployment.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.deployment.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.deployment.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

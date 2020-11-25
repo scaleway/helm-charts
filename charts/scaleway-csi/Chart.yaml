@@ -1,0 +1,16 @@
+apiVersion: v2
+name: scaleway-csi
+description: A Helm chart for the Scaleway CSI plugin
+type: application
+version: 0.1.0
+appVersion: 0.1.5
+sources:
+- https://github.com/scaleway/scaleway-csi
+home: https://github.com/scaleway/scaleway-csi
+maintainers:
+- email: patrik@ptrk.io
+  name: Sh4d1
+keywords:
+- scaleway
+- csi
+- pvc

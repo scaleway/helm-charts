@@ -1,0 +1,113 @@
+image:
+  repository: scaleway/scaleway-csi
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+storageClasses:
+- name: scw-bssd
+  default: true
+  reclaimPolicy: Delete
+  volumeBindingMode: Immediate
+  parameters: {}
+- name: scw-bssd
+  default: false
+  reclaimPolicy: Retain
+  volumeBindingMode: Immediate
+  parameters: {}
+
+defaultFSType: ext4
+
+csiProvisioner:
+  enabled: true
+  clusterRoleName: "scaleway-csi-provisioner"
+  clusterRoleBindingName: "scaleway-csi-provisioner"
+  roleName: "scaleway-csi-provisioner"
+  roleBindingName: "scaleway-csi-provisioner"
+  image:
+    repository: k8s.gcr.io/sig-storage/csi-provisioner
+    pullPolicy: IfNotPresent
+    tag: v2.0.4
+  
+csiAttacher:
+  enabled: true
+  clusterRoleName: "scaleway-csi-attacher"
+  clusterRoleBindingName: "scaleway-csi-attacher"
+  roleName: "scaleway-csi-attacher"
+  roleBindingName: "scaleway-csi-attacher"
+  image:
+    repository: k8s.gcr.io/sig-storage/csi-attacher
+    pullPolicy: IfNotPresent
+    tag: v3.0.2
+
+csiSnapshotter:
+  enabled: true
+  clusterRoleName: "scaleway-csi-snapshotter"
+  clusterRoleBindingName: "scaleway-csi-snapshotter"
+  roleName: "scaleway-csi-snapshotter"
+  roleBindingName: "scaleway-csi-snapshotter"
+  image:
+    repository: k8s.gcr.io/sig-storage/csi-snapshotter
+    pullPolicy: IfNotPresent
+    tag: v3.0.2
+
+csiSnapshotController:
+  enabled: true
+  clusterRoleName: "scaleway-csi-snapshot-controller"
+  clusterRoleBindingName: "scaleway-csi-snapshot-controller"
+  roleName: "scaleway-csi-snapshot-controller"
+  roleBindingName: "scaleway-csi-snapshot-controller"
+  image:
+    repository: k8s.gcr.io/sig-storage/snapshot-controller
+    pullPolicy: IfNotPresent
+    tag: v3.0.2
+
+csiResizer:
+  enabled: true
+  clusterRoleName: "scaleway-csi-resizer"
+  clusterRoleBindingName: "scaleway-csi-resizer"
+  roleName: "scaleway-csi-resizer"
+  roleBindingName: "scaleway-csi-resizer"
+  image:
+    repository: k8s.gcr.io/sig-storage/csi-resizer
+    pullPolicy: IfNotPresent
+    tag: v1.0.1
+
+csiLivenessProbe:
+  enabled: true
+  image:
+    repository: k8s.gcr.io/sig-storage/livenessprobe
+    pullPolicy: IfNotPresent
+    tag: v2.1.0
+
+csiNodeDriverRegistrar:
+  enabled: true
+  clusterRoleName: "scaleway-csi-node-driver-registrar"
+  clusterRoleBindingName: "scaleway-csi-node-driver-registrar"
+  image:
+    repository: k8s.gcr.io/sig-storage/csi-node-driver-registrar
+    pullPolicy: IfNotPresent
+    tag: v2.0.1
+
+deployment:
+  fullNameOverride: ""
+  replicaCount: 1
+  serviceAccount:
+    annotations: {}
+    name: ""
+  resources: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
+daemonset:
+  fullNameOverride: ""
+  serviceAccount:
+    annotations: {}
+    name: ""
+  resources: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
+nameOverride: ""

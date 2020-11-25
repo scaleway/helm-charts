@@ -1,0 +1,21 @@
+{{- range .Values.storageClasses }}
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: {{ .name }}
+  labels:
+    {{- include "scaleway-csi.labels" . | nindent 4 }}
+  annotations:
+  {{- if .default }}
+    storageclass.kubernetes.io/is-default-class: "true"
+  {{- end }}
+provisioner: csi.scaleway.com
+reclaimPolicy: {{ .reclaimPolicy }}
+volumeBindingMode: {{ .volumeBindingMode }}
+allowVolumeExpansion: {{ .Values.csiResizer.enabed }}
+parameters: 
+{{- with .parameters }}
+tolerations:
+  {{- toYaml . | nindent 2 }}
+{{- end }}
+{{- end }}
