@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "Helpers.fullname" . }}
+  annotations:
+    checksum/config: {{ include "environments-contents" . | sha256sum }}
+  labels:
+    {{- include "Helpers.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      {{- include "Helpers.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "Helpers.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: app
+          imagePullPolicy: Always
+          image: {{ .Values.image | quote }}
+          {{- if .Values.command }}
+          command:
+            - {{ .Values.command | quote }}
+          {{- end }}
+          {{- if .Values.args }}
+          args:
+            {{- range .Values.args }}
+            - {{ . | quote }}
+            {{- end }}
+          {{- end }}
+          envFrom:
+            - secretRef:
+                name: {{ include "Helpers.fullname" . }}-env
+          {{- if .Values.ports }}
+          ports:
+            {{- range .Values.ports }}
+            {{- $split := . | toString | split ":" }}
+            {{- $container_port := $split._1 | default $split._0 | int }}
+            - name: port{{ $container_port }}
+              containerPort: {{ $container_port }}
+              protocol: TCP
+            {{- end }}
+          {{- end }}

@@ -1,0 +1,24 @@
+{{- if .Values.ports -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "Helpers.fullname" . }}
+  labels:
+    {{- include "Helpers.labels" . | nindent 4 }}
+spec:
+  type: {{ if .Values.loadbalancer }}LoadBalancer{{ else }}ClusterIP{{ end }}
+  ports:
+    {{- range .Values.ports }}
+    {{- $split := . | toString | split ":" }}
+    {{- $container_port := $split._1 | default $split._0 | int }}
+    - name: port{{ $container_port }}
+      # workaround: when changing from LoadBalancer/NodePort,
+      # nodePort field should be removed. Clear on each upgrade.
+      nodePort: 0
+      targetPort: {{ $container_port }}
+      port: {{ $split._0 | int }}
+      protocol: TCP
+    {{- end }}
+  selector:
+    {{- include "Helpers.selectorLabels" . | nindent 4 }}
+{{- end -}}
