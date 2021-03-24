@@ -1,0 +1,32 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: {{ include "Helpers.fullname" . }}
+  annotations:
+    checksum/config: {{ include "environments-contents" . | sha256sum }}
+  labels:
+    {{- include "Helpers.labels" . | nindent 4 }}
+spec:
+  schedule: "{{ .Values.schedule_minute }} {{ .Values.schedule_hour }} {{ .Values.schedule_monthday }} {{ .Values.schedule_month }} {{ .Values.schedule_weekday }}"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: app
+            imagePullPolicy: Always
+            image: {{ .Values.image | quote }}
+            {{- if .Values.command }}
+            command:
+              - {{ .Values.command | quote }}
+            {{- end }}
+            {{- if .Values.args }}
+            args:
+              {{- range .Values.args }}
+              - {{ . | quote }}
+              {{- end }}
+            {{- end }}
+            envFrom:
+              - secretRef:
+                  name: {{ include "Helpers.fullname" . }}-env
