@@ -1,0 +1,18 @@
+# Default values.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image: nginxdemos/hello:plain-text
+command:
+args: []
+  # - -v=6
+  # - --do-something
+environments: []
+  # - name: variable
+  #   value: "1"
+
+replicas: 1
+
+ports:
+  # - "80"
+loadbalancer: false
