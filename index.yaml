@@ -1,0 +1,27 @@
+apiVersion: v1
+entries:
+  ed-cron:
+  - apiVersion: v2
+    appVersion: 0.1.0
+    created: "2021-03-30T11:46:35.566480625Z"
+    description: Kapsule easy cron
+    digest: c5b2d948e817ee258d91ddb29564a9c64c6aa3f6615c1c5e02b956b761bc22d0
+    icon: https://images-www.scaleway.com/wp-content/uploads/2020/04/15153844/kapsule-cropped.png
+    name: ed-cron
+    type: application
+    urls:
+    - https://github.com/scaleway/helm-charts/releases/download/ed-cron-0.1.0/ed-cron-0.1.0.tgz
+    version: 0.1.0
+  ed-deployment:
+  - apiVersion: v2
+    appVersion: 0.1.0
+    created: "2021-03-30T11:46:35.685479049Z"
+    description: Kapsule easy deployment
+    digest: 638a15334c7f690f25b225aab60136429368545f942333eef5961e72ae73ecb0
+    icon: https://images-www.scaleway.com/wp-content/uploads/2020/04/15153844/kapsule-cropped.png
+    name: ed-deployment
+    type: application
+    urls:
+    - https://github.com/scaleway/helm-charts/releases/download/ed-deployment-0.1.0/ed-deployment-0.1.0.tgz
+    version: 0.1.0
+generated: "2021-03-30T11:46:35.68549015Z"
