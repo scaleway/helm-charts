@@ -24,4 +24,16 @@ entries:
     urls:
     - https://github.com/scaleway/helm-charts/releases/download/ed-deployment-0.1.0/ed-deployment-0.1.0.tgz
     version: 0.1.0
-generated: "2021-03-30T11:46:35.68549015Z"
+  ed-traefik2:
+  - apiVersion: v2
+    appVersion: "2.2"
+    created: "2021-04-14T14:08:47.325079714Z"
+    description: Kapsule traefik2
+    digest: 6efc929b94d129e818ac2161b44687be63bcfe19422f4e3c23758a3a7b515324
+    icon: https://images-www.scaleway.com/wp-content/uploads/2020/04/15153844/kapsule-cropped.png
+    name: ed-traefik2
+    type: application
+    urls:
+    - https://github.com/scaleway/helm-charts/releases/download/ed-traefik2-0.1.0/ed-traefik2-0.1.0.tgz
+    version: 0.1.0
+generated: "2021-04-14T14:08:47.325085115Z"
