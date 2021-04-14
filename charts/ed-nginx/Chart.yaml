@@ -1,0 +1,7 @@
+apiVersion: v2
+name: ed-nginx
+description: Kapsule nginx
+type: application
+version: 0.1.0
+appVersion: 0.1.0
+icon: https://images-www.scaleway.com/wp-content/uploads/2020/04/15153844/kapsule-cropped.png
