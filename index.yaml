@@ -36,6 +36,18 @@ entries:
     urls:
     - https://github.com/scaleway/helm-charts/releases/download/ed-nginx-0.1.0/ed-nginx-0.1.0.tgz
     version: 0.1.0
+  ed-traefik:
+  - apiVersion: v2
+    appVersion: "1.7"
+    created: "2021-04-15T12:16:59.574573527Z"
+    description: Kapsule traefik
+    digest: 6c24540c6c668643eaa662b273263c74fd600794e53c9df488d7f516fb558a9a
+    icon: https://images-www.scaleway.com/wp-content/uploads/2020/04/15153844/kapsule-cropped.png
+    name: ed-traefik
+    type: application
+    urls:
+    - https://github.com/scaleway/helm-charts/releases/download/ed-traefik-0.1.0/ed-traefik-0.1.0.tgz
+    version: 0.1.0
   ed-traefik2:
   - apiVersion: v2
     appVersion: "2.2"
@@ -48,4 +60,4 @@ entries:
     urls:
     - https://github.com/scaleway/helm-charts/releases/download/ed-traefik2-0.1.0/ed-traefik2-0.1.0.tgz
     version: 0.1.0
-generated: "2021-04-15T12:01:50.751108428Z"
+generated: "2021-04-15T12:16:59.574579027Z"
