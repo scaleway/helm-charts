@@ -1,0 +1,84 @@
+{{- if .Values.csiAttacher.enabled }}
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ .Values.csiAttacher.clusterRoleBindingName }}
+  labels:
+    {{- include "scaleway-csi.labels" . | nindent 4 }}
+    {{- include "scaleway-csi.deploymentSelectorLabels" . | nindent 4 }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "scaleway-csi.deployementAccountName" . }}
+roleRef:
+  kind: ClusterRole
+  name: {{ .Values.csiAttacher.clusterRoleName }}
+  apiGroup: rbac.authorization.k8s.io
+---
+{{- end }}
+{{- if .Values.csiProvisioner.enabled }}
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ .Values.csiProvisioner.clusterRoleBindingName }}
+  labels:
+    {{- include "scaleway-csi.labels" . | nindent 4 }}
+    {{- include "scaleway-csi.deploymentSelectorLabels" . | nindent 4 }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "scaleway-csi.deployementAccountName" . }}
+roleRef:
+  kind: ClusterRole
+  name: {{ .Values.csiProvisioner.clusterRoleName }}
+  apiGroup: rbac.authorization.k8s.io
+---
+{{- end }}
+{{- if .Values.csiResizer.enabled }}
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ .Values.csiResizer.clusterRoleBindingName }}
+  labels:
+    {{- include "scaleway-csi.labels" . | nindent 4 }}
+    {{- include "scaleway-csi.deploymentSelectorLabels" . | nindent 4 }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "scaleway-csi.deployementAccountName" . }}
+roleRef:
+  kind: ClusterRole
+  name: {{ .Values.csiResizer.clusterRoleName }}
+  apiGroup: rbac.authorization.k8s.io
+---
+{{- end }}
+{{- if .Values.csiSnapshotter.enabled }}
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ .Values.csiSnapshotter.clusterRoleBindingName }}
+  labels:
+    {{- include "scaleway-csi.labels" . | nindent 4 }}
+    {{- include "scaleway-csi.deploymentSelectorLabels" . | nindent 4 }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "scaleway-csi.deployementAccountName" . }}
+roleRef:
+  kind: ClusterRole
+  name: {{ .Values.csiSnapshotter.clusterRoleName }}
+  apiGroup: rbac.authorization.k8s.io
+---
+{{- end }}
+{{- if .Values.csiSnapshotController.enabled }}
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ .Values.csiSnapshotController.clusterRoleBindingName }}
+  labels:
+    {{- include "scaleway-csi.labels" . | nindent 4 }}
+    {{- include "scaleway-csi.deploymentSelectorLabels" . | nindent 4 }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "scaleway-csi.deployementAccountName" . }}
+roleRef:
+  kind: ClusterRole
+  name: {{ .Values.csiSnapshotController.clusterRoleName }}
+  apiGroup: rbac.authorization.k8s.io
+{{- end }}

@@ -1,0 +1,9 @@
+{{- if .Values.csiSnapshotController.enabled }}
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ .Values.csiSnapshotController.roleName }}
+rules:
+- apiGroups: ["coordination.k8s.io"]
+  resources: ["leases"]
+{{- end }}

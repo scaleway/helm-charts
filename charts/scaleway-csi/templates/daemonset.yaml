@@ -1,0 +1,116 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: {{ include "scaleway-csi.daemonsetfullname" . }}
+  labels:
+    {{- include "scaleway-csi.labels" . | nindent 4 }}
+    {{- include "scaleway-csi.daemonsetSelectorLabels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "scaleway-csi.daemonsetSelectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "scaleway-csi.daemonsetSelectorLabels" . | nindent 8 }}
+    spec:
+      priorityClassName: system-node-critical
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args :
+            - "--endpoint=$(CSI_ENDPOINT)"
+            - "--mode=node"
+          securityContext:
+            privileged: true
+          env:
+            - name: CSI_ENDPOINT
+              value: unix:///csi/csi.sock
+          {{- if .Values.csiLivenessProbe.enabled }}
+          ports:
+            - name: healthz
+              containerPort: 9808
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: healthz
+            initialDelaySeconds: 10
+            timeoutSeconds: 3
+            periodSeconds: 2
+            failureThreshold: 5
+          {{- end }}
+          volumeMounts:
+            - name: plugin-dir
+              mountPath: /csi
+            - name: kubelet-dir
+              mountPath: /var/lib/kubelet
+              mountPropagation: "Bidirectional"
+            - name: device-dir
+              mountPath: /dev
+          resources:
+            {{- toYaml .Values.daemonset.resources | nindent 12 }}
+        {{- if .Values.csiLivenessProbe.enabled }}
+        - name: csi-liveness-probe
+          image: "{{ .Values.csiLivenessProbe.image.repository }}:{{ .Values.csiLivenessProbe.image.tag }}"
+          imagePullPolicy: {{ .Values.csiLivenessProbe.image.pullPolicy }}
+          args:
+            - "--csi-address=$(CSI_ADDRESS)"
+          env:
+            - name: CSI_ADDRESS
+              value: /csi/csi.sock
+          volumeMounts:
+            - name: socket-dir
+              mountPath: /csi
+        {{- end }}
+        {{- if .Values.csiNodeDriverRegistrar.enabled }}
+        - name: csi-node-driver-registrar
+          image: "{{ .Values.csiNodeDriverRegistrar.image.repository }}:{{ .Values.csiNodeDriverRegistrar.image.tag }}"
+          imagePullPolicy: {{ .Values.csiNodeDriverRegistrar.image.pullPolicy }}
+          args:
+            - "--csi-address=$(CSI_ADDRESS)"
+            - "--kubelet-registration-path=$(KUBELET_REGISTRATION_PATH)"
+          env:
+            - name: CSI_ADDRESS
+              value: /csi/csi.sock
+            - name: KUBELET_REGISTRATION_PATH
+              value: /var/lib/kubelet/plugins/csi.scaleway.com/csi.sock
+            - name: KUBE_NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+          volumeMounts:
+            - name: plugin-dir
+              mountPath: /csi/
+            - name: registration-dir
+              mountPath: /registration/
+        {{- end }}
+      volumes:
+        - name: registration-dir
+          hostPath:
+            path: /var/lib/kubelet/plugins_registry/
+            type: DirectoryOrCreate
+        - name: plugin-dir
+          hostPath:
+            path: /var/lib/kubelet/plugins/csi.scaleway.com
+            type: DirectoryOrCreate
+        - name: kubelet-dir
+          hostPath:
+            path: /var/lib/kubelet
+            type: Directory
+        - name: device-dir
+          hostPath:
+            path: /dev
+      {{- with .Values.daemonset.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.daemonset.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.daemonset.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
