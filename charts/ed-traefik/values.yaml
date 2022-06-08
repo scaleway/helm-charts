@@ -1,8 +1,6 @@
-# Default values.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-
+# Default values for Traefik
 image:
-  repository: docker.io/traefik
-  # Overrides the image tag whose default is the chart appVersion.
+  name: docker.io/traefik
+  # defaults to appVersion
   tag: ""
+  pullPolicy: IfNotPresent

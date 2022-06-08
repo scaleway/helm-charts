@@ -2,7 +2,6 @@ kind: DaemonSet
 apiVersion: apps/v1
 metadata:
   name: ingress-traefik
-  namespace: kube-system
   labels:
     k8s-app: traefik-ingress-lb
 spec:
@@ -20,7 +19,7 @@ spec:
       hostNetwork: false
       containers:
         - name: ingress-traefik
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: "{{ .Values.image.name }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           ports:
             - name: http
               containerPort: 80
