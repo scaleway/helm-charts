@@ -26,6 +26,17 @@ entries:
     version: 0.1.0
   ed-nginx:
   - apiVersion: v2
+    appVersion: v1.1.0
+    created: "2022-06-08T08:31:36.985615477Z"
+    description: Kapsule nginx
+    digest: c519ff0be20701b9ca8544f30b54cf16d401a81f68d15b415b1e19f7fd4a9803
+    icon: https://images-www.scaleway.com/wp-content/uploads/2020/04/15153844/kapsule-cropped.png
+    name: ed-nginx
+    type: application
+    urls:
+    - https://github.com/scaleway/helm-charts/releases/download/ed-nginx-0.2.0/ed-nginx-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
     appVersion: v0.35.0
     created: "2021-04-15T12:01:50.570173537Z"
     description: Kapsule nginx
@@ -37,6 +48,17 @@ entries:
     - https://github.com/scaleway/helm-charts/releases/download/ed-nginx-0.1.0/ed-nginx-0.1.0.tgz
     version: 0.1.0
   ed-traefik:
+  - apiVersion: v2
+    appVersion: v1.7.34
+    created: "2022-06-08T08:31:37.141967733Z"
+    description: Kapsule traefik
+    digest: 5aa303a77997587710228cbf81c3447bd8d434a8b33611e92aa6f9a845bab3c4
+    icon: https://images-www.scaleway.com/wp-content/uploads/2020/04/15153844/kapsule-cropped.png
+    name: ed-traefik
+    type: application
+    urls:
+    - https://github.com/scaleway/helm-charts/releases/download/ed-traefik-0.2.0/ed-traefik-0.2.0.tgz
+    version: 0.2.0
   - apiVersion: v2
     appVersion: "1.7"
     created: "2021-04-15T12:16:59.574573527Z"
@@ -50,6 +72,17 @@ entries:
     version: 0.1.0
   ed-traefik2:
   - apiVersion: v2
+    appVersion: 2.5.6
+    created: "2022-06-08T08:31:37.301398353Z"
+    description: Kapsule traefik2
+    digest: ed2e004ffe820c2494c5574d0180ebf79192e733aaf9de80d04d8f9967a3bd4d
+    icon: https://images-www.scaleway.com/wp-content/uploads/2020/04/15153844/kapsule-cropped.png
+    name: ed-traefik2
+    type: application
+    urls:
+    - https://github.com/scaleway/helm-charts/releases/download/ed-traefik2-0.2.0/ed-traefik2-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
     appVersion: "2.2"
     created: "2021-04-14T14:08:47.325079714Z"
     description: Kapsule traefik2
@@ -60,4 +93,4 @@ entries:
     urls:
     - https://github.com/scaleway/helm-charts/releases/download/ed-traefik2-0.1.0/ed-traefik2-0.1.0.tgz
     version: 0.1.0
-generated: "2021-04-15T12:16:59.574579027Z"
+generated: "2022-06-08T08:31:37.301414152Z"
