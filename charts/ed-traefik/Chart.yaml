@@ -2,6 +2,6 @@ apiVersion: v2
 name: ed-traefik
 description: Kapsule traefik
 type: application
-version: 0.1.0
-appVersion: "1.7"
+version: 0.2.0
+appVersion: "v1.7.34"
 icon: https://images-www.scaleway.com/wp-content/uploads/2020/04/15153844/kapsule-cropped.png

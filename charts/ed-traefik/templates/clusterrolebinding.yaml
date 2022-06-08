@@ -9,4 +9,4 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: ingress-traefik
-    namespace: kube-system
+    namespace: {{ .Release.Namespace | quote }}

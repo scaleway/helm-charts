@@ -26,9 +26,11 @@ spec:
       hostNetwork: false
       containers:
         - name: nginx-ingress-controller
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: "{{ .Values.controller.image.repository }}:{{ .Values.controller.image.tag | default .Chart.AppVersion }}"
           args:
             - /nginx-ingress-controller
+            - --election-id=ingress-controller-leader-nginx
+            - --controller-class=k8s.io/ingress-nginx
             - --configmap=$(POD_NAMESPACE)/ingress-nginx-configuration
             - --tcp-services-configmap=$(POD_NAMESPACE)/ingress-nginx-tcp-services
             - --udp-services-configmap=$(POD_NAMESPACE)/ingress-nginx-udp-services

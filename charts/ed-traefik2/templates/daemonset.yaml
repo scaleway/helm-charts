@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: traefik
-  namespace: kube-system
   labels:
     app.kubernetes.io/name: traefik
     app.kubernetes.io/instance: traefik
@@ -22,7 +21,7 @@ spec:
       hostNetwork: false
       containers:
         - name: traefik
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: "{{ .Values.image.name }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           resources:
           readinessProbe:
             httpGet:
