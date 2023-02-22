@@ -6,7 +6,8 @@ This chart offers the following features:
 * Cron feature of the Kapsule EasyDeploy web interface
 
 ## Prerequisites Details
-* Kubernetes 1.10+
+
+* Kubernetes 1.21+
 * Helm 3+
 
 ## Installing the Chart
