@@ -104,4 +104,23 @@ entries:
     urls:
     - https://github.com/scaleway/helm-charts/releases/download/ed-traefik2-0.1.0/ed-traefik2-0.1.0.tgz
     version: 0.1.0
-generated: "2023-02-22T10:09:29.747311797Z"
+  scaleway-csi:
+  - apiVersion: v2
+    appVersion: v0.2.1
+    created: "2023-08-22T09:52:24.511129671Z"
+    description: A Helm chart for the Scaleway CSI plugin
+    digest: 8bf139d5c35fb129166158f63830ef67ad15c6684e37cac40a85b38b8ac614c2
+    home: https://github.com/scaleway/scaleway-csi
+    keywords:
+    - scaleway
+    - csi
+    - pvc
+    kubeVersion: '>= 1.20.0'
+    name: scaleway-csi
+    sources:
+    - https://github.com/scaleway/scaleway-csi
+    type: application
+    urls:
+    - https://github.com/scaleway/helm-charts/releases/download/scaleway-csi-0.1.0/scaleway-csi-0.1.0.tgz
+    version: 0.1.0
+generated: "2023-08-22T09:52:24.511145471Z"
