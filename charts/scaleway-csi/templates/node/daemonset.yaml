@@ -1,0 +1,136 @@
+{{- if .Values.node.enabled }}
+kind: DaemonSet
+apiVersion: apps/v1
+metadata:
+  name: {{ include "scaleway-csi.fullname" . }}-node
+  labels:
+    {{- include "scaleway-csi.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "scaleway-csi.selectorLabels" . | nindent 6 }}
+      app: {{ include "scaleway-csi.fullname" . }}-node
+  template:
+    metadata:
+      {{- with .Values.node.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "scaleway-csi.selectorLabels" . | nindent 8 }}
+        app: {{ include "scaleway-csi.fullname" . }}-node
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.node.podSecurityContext | nindent 8 }}
+      serviceAccount: {{ include "scaleway-csi.serviceAccountName" . }}
+      {{- with .Values.node.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.node.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.node.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      priorityClassName: system-node-critical
+      containers:
+        - name: scaleway-csi-plugin
+          image: "{{ .Values.node.driver.image.repository }}:{{ .Values.node.driver.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.node.driver.image.pullPolicy }}
+          args :
+            - "--endpoint=$(CSI_ENDPOINT)"
+            - "--v=4"
+            - "--mode=node"
+          env:
+            - name: CSI_ENDPOINT
+              value: unix:///csi/csi.sock
+          securityContext:
+            privileged: true
+          resources:
+            {{- toYaml .Values.node.driver.resources | nindent 12 }}
+          {{- if .Values.node.liveness.enabled }}
+          ports:
+            - name: healthz
+              containerPort: 9808
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: healthz
+            initialDelaySeconds: 10
+            timeoutSeconds: 3
+            periodSeconds: 2
+            failureThreshold: 5
+          {{- end }}
+          volumeMounts:
+            - name: plugin-dir
+              mountPath: /csi
+            - name: kubelet-dir
+              mountPath: /var/lib/kubelet
+              mountPropagation: "Bidirectional"
+            - name: device-dir
+              mountPath: /dev
+        {{- if .Values.node.registrar.enabled }}
+        - name: csi-node-driver-registrar
+          image: "{{ .Values.node.registrar.image.repository }}:{{ .Values.node.registrar.image.tag }}"
+          imagePullPolicy: {{ .Values.node.registrar.image.pullPolicy }}
+          args:
+            - "--v=2"
+            - "--csi-address=$(CSI_ADDRESS)"
+            - "--kubelet-registration-path=$(KUBELET_REGISTRATION_PATH)"
+          env:
+            - name: CSI_ADDRESS
+              value: /csi/csi.sock
+            - name: KUBELET_REGISTRATION_PATH
+              value: /var/lib/kubelet/plugins/csi.scaleway.com/csi.sock
+            - name: KUBE_NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+          resources:
+            {{- toYaml .Values.node.registrar.resources | nindent 12 }}
+          volumeMounts:
+            - name: plugin-dir
+              mountPath: /csi/
+            - name: registration-dir
+              mountPath: /registration/
+        {{- end }}
+        {{- if .Values.node.liveness.enabled }}
+        - name: liveness-probe
+          image: "{{ .Values.node.liveness.image.repository }}:{{ .Values.node.liveness.image.tag }}"
+          imagePullPolicy: {{ .Values.node.liveness.image.pullPolicy }}
+          args:
+            - "--csi-address=$(CSI_ADDRESS)"
+          env:
+            - name: CSI_ADDRESS
+              value: /csi/csi.sock
+          resources:
+            {{- toYaml .Values.node.liveness.resources | nindent 12 }}
+          volumeMounts:
+            - name: plugin-dir
+              mountPath: /csi
+        {{- end }}
+      volumes:
+        - name: registration-dir
+          hostPath:
+            path: /var/lib/kubelet/plugins_registry/
+            type: DirectoryOrCreate
+        - name: plugin-dir
+          hostPath:
+            path: /var/lib/kubelet/plugins/csi.scaleway.com
+            type: DirectoryOrCreate
+        - name: kubelet-dir
+          hostPath:
+            path: /var/lib/kubelet
+            type: Directory
+        - name: device-dir
+          hostPath:
+            path: /dev
+{{- end }}

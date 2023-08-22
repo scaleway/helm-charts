@@ -1,0 +1,15 @@
+{{- range .Values.volumeSnapshotClasses }}
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshotClass
+metadata:
+  name: {{ .name }}
+  labels:
+    {{- include "scaleway-csi.labels" $ | nindent 4 }}
+  annotations:
+  {{- if .default }}
+    snapshot.storage.kubernetes.io/is-default-class: "true"
+  {{- end }}
+driver: csi.scaleway.com
+deletionPolicy: {{ .deletionPolicy }}
+---
+{{- end }}

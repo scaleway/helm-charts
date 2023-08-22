@@ -1,0 +1,68 @@
+{{- if and .Values.controller.enabled .Values.controller.resizer.enabled }}
+# Sync from https://github.com/kubernetes-csi/external-resizer/blob/master/deploy/kubernetes/rbac.yaml
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ include "scaleway-csi.fullname" . }}-resizer
+  labels:
+    {{- include "scaleway-csi.labels" . | nindent 4 }}
+rules:
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["persistentvolumes"]
+    verbs: ["get", "list", "watch", "patch"]
+  - apiGroups: [""]
+    resources: ["persistentvolumeclaims"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["persistentvolumeclaims/status"]
+    verbs: ["patch"]
+  - apiGroups: [""]
+    resources: ["events"]
+    verbs: ["list", "watch", "create", "update", "patch"]
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ include "scaleway-csi.fullname" . }}-resizer
+  labels:
+    {{- include "scaleway-csi.labels" . | nindent 4 }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "scaleway-csi.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: ClusterRole
+  name: {{ include "scaleway-csi.fullname" . }}-resizer
+  apiGroup: rbac.authorization.k8s.io
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ include "scaleway-csi.fullname" . }}-resizer
+  labels:
+    {{- include "scaleway-csi.labels" . | nindent 4 }}
+rules:
+- apiGroups: ["coordination.k8s.io"]
+  resources: ["leases"]
+  verbs: ["get", "watch", "list", "delete", "update", "create"]
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ include "scaleway-csi.fullname" . }}-resizer
+  labels:
+    {{- include "scaleway-csi.labels" . | nindent 4 }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "scaleway-csi.serviceAccountName" . }}
+roleRef:
+  kind: Role
+  name: {{ include "scaleway-csi.fullname" . }}-resizer
+  apiGroup: rbac.authorization.k8s.io
+{{- end }}
