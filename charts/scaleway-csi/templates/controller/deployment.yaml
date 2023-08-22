@@ -87,6 +87,7 @@ spec:
             - "--v=5"
             - "--csi-address=$(CSI_ADDRESS)"
             - "--leader-election"
+            - "--feature-gates=Topology=true"
             - "--default-fstype={{ .Values.controller.provisioner.defaultFSType }}"
           env:
             - name: CSI_ADDRESS
@@ -180,6 +181,8 @@ spec:
           args: ['--tls-cert-file=/etc/snapshot-validation-webhook/certs/tls.crt', '--tls-private-key-file=/etc/snapshot-validation-webhook/certs/tls.key']
           ports:
           - containerPort: 443
+          resources:
+            {{- toYaml .Values.controller.webhook.resources | nindent 12 }}
           volumeMounts:
             - name: snapshot-validation-webhook-certs
               mountPath: /etc/snapshot-validation-webhook/certs
