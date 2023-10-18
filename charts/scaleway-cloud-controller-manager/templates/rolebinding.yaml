@@ -1,0 +1,16 @@
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: system:cloud-controller-manager
+  labels:
+    {{- include "scaleway-cloud-controller-manager.labels" . | nindent 4 }}
+    {{- include "scaleway-cloud-controller-manager.selectorLabels" . | nindent 4 }}
+subjects:
+  - kind: ServiceAccount
+    name: cloud-controller-manager
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: extension-apiserver-authentication-reader
+
+
