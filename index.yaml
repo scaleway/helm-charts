@@ -104,6 +104,16 @@ entries:
     urls:
     - https://github.com/scaleway/helm-charts/releases/download/ed-traefik2-0.1.0/ed-traefik2-0.1.0.tgz
     version: 0.1.0
+  scaleway-certmanager-webhook:
+  - apiVersion: v2
+    appVersion: v0.1.0
+    created: "2024-05-03T12:45:45.172298643Z"
+    description: Cert-Manager webhook for Scaleway
+    digest: f3ad078c230d4819969f450a211788f04e72bb0134bc7401dcd08970d59f001c
+    name: scaleway-certmanager-webhook
+    urls:
+    - https://github.com/scaleway/helm-charts/releases/download/scaleway-certmanager-webhook-0.1.0/scaleway-certmanager-webhook-0.1.0.tgz
+    version: 0.1.0
   scaleway-csi:
   - apiVersion: v2
     appVersion: v0.2.3
@@ -159,4 +169,4 @@ entries:
     urls:
     - https://github.com/scaleway/helm-charts/releases/download/scaleway-csi-0.1.0/scaleway-csi-0.1.0.tgz
     version: 0.1.0
-generated: "2023-10-10T16:26:18.298095372Z"
+generated: "2024-05-03T12:45:45.172323499Z"
