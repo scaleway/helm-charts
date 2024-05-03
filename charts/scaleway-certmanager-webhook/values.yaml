@@ -1,0 +1,80 @@
+## @section Configuration
+##
+## @descriptionStart
+## Configuration parameters.
+## @descriptionEnd
+
+## @param groupName Name under which the webhook will be available
+groupName: acme.scaleway.com
+
+## @param certManager.namespace Namespace under which cert-manager is installed
+## @param certManager.serviceAccountName Name of the cert-manager service account
+certManager:
+  namespace: cert-manager
+  serviceAccountName: cert-manager
+
+## @param pki.caDuration Webhook ca duration
+## @param pki.servingCertificateDuration Webhook certificate duration
+pki:
+  caDuration: 43800h # 5y
+  servingCertificateDuration: 8760h # 1y
+
+## @param secret.accessKey Default scaleway access key (optional)
+## @param secret.secretKey Default scaleway secret key (optional)
+## @param secret.name Secret name for the default scaleway credentials
+secret:
+  accessKey: ""
+  secretKey: ""
+  name: scaleway-webhook-secret
+
+## @section Common configuration
+##
+## @descriptionStart
+## Common parameters.
+## @descriptionEnd
+
+## @param nameOverride Override charts name
+## @param fullnameOverride Override charts and release name
+nameOverride: ""
+fullnameOverride: ""
+
+## @param replicaCount Number of replica
+replicaCount: 1
+
+## @param image.repository Repository for the webhook image
+## @param image.pullPolicy Image pull policy
+## @param image.imagePullSecrets Image pull secrets
+## @param image.tag Tag for the webhook image, defaults to AppVersion
+image:
+  repository: scaleway/cert-manager-webhook-scaleway
+  pullPolicy: IfNotPresent
+  imagePullSecrets: []
+  tag: ""
+
+## @param service.type Service type exposing the webhook
+## @param service.port Service port exposing the webhook
+service:
+  type: ClusterIP
+  port: 443
+
+## @param resources Resources definition
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #  cpu: 100m
+  #  memory: 128Mi
+  # requests:
+  #  cpu: 100m
+  #  memory: 128Mi
+
+## @param nodeSelector Node selector
+nodeSelector: {}
+
+## @param tolerations Tolerations
+tolerations: []
+
+## @param affinity Affinities
+affinity: {}
