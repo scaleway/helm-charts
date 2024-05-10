@@ -51,6 +51,11 @@ image:
   imagePullSecrets: []
   tag: ""
 
+## @param extraEnv Additional environment variables to pass to the webhook deployment
+extraEnv: []
+# - name: SOME_VAR
+#   value: 'some value'
+
 ## @param service.type Service type exposing the webhook
 ## @param service.port Service port exposing the webhook
 service:
