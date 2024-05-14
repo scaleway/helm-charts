@@ -43,6 +43,7 @@ Common parameters.
 | `image.pullPolicy`       | Image pull policy                                 | `IfNotPresent`                           |
 | `image.imagePullSecrets` | Image pull secrets                                | `[]`                                     |
 | `image.tag`              | Tag for the webhook image, defaults to AppVersion | `""`                                     |
+| `extraEnv`               | Additional environment variables for deployment   | `[]`                                     |
 | `service.type`           | Service type exposing the webhook                 | `ClusterIP`                              |
 | `service.port`           | Service port exposing the webhook                 | `443`                                    |
 | `resources`              | Resources definition                              | `{}`                                     |
