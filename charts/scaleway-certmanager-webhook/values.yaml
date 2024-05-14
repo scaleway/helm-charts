@@ -70,6 +70,9 @@ resources: {}
   #  cpu: 100m
   #  memory: 128Mi
 
+## @param podLabels Pod labels
+podLabels: {}
+
 ## @param nodeSelector Node selector
 nodeSelector: {}
 
