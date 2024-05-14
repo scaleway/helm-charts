@@ -19,7 +19,7 @@ spec:
         app: {{ include "scaleway-webhook.name" . }}
         release: {{ .Release.Name }}
         {{- with .Values.podLabels }}
-        {{ toYaml .Values.podLabels | indent 8 }}
+        {{- toYaml . | nindent 8 }}
         {{- end }}
     spec:
       serviceAccountName: {{ include "scaleway-webhook.fullname" . }}
@@ -37,14 +37,14 @@ spec:
           env:
             - name: GROUP_NAME
               value: {{ .Values.groupName | quote }}
-          {{- with .Values.extraEnv }}
-          {{- toYaml . | nindent 12 }}
-          {{- end }}
-          {{ if and .Values.secret.accessKey .Values.secret.secretKey }}
+            {{- with .Values.extraEnv }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          {{- if and .Values.secret.accessKey .Values.secret.secretKey }}
           envFrom:
           - secretRef:
               name: {{ .Values.secret.name }}
-          {{ end }}
+          {{- end }}
           ports:
             - name: https
               containerPort: 443
@@ -64,21 +64,23 @@ spec:
             - name: certs
               mountPath: /tls
               readOnly: true
+          {{- with .Values.resources }}
           resources:
-{{ toYaml .Values.resources | indent 12 }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
       volumes:
         - name: certs
           secret:
             secretName: {{ include "scaleway-webhook.servingCertificate" . }}
-    {{- with .Values.nodeSelector }}
+      {{- with .Values.nodeSelector }}
       nodeSelector:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.affinity }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
       affinity:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.tolerations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
       tolerations:
-{{ toYaml . | indent 8 }}
-    {{- end }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
