@@ -2,7 +2,7 @@
 
 Deploys the scaleway cert-manager webhook.
 
-![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square) ![ChartVersion: 0.2.0](https://img.shields.io/badge/ChartVersion-0.2.0-informational?style=flat-square)
+![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square) ![ChartVersion: 0.2.1](https://img.shields.io/badge/ChartVersion-0.2.1-informational?style=flat-square)
 
 ## Installing the Chart
 
@@ -34,20 +34,21 @@ Configuration parameters.
 
 Common parameters.
 
-| Name                     | Description                                       | Value                                    |
-| ------------------------ | ------------------------------------------------- | ---------------------------------------- |
-| `nameOverride`           | Override charts name                              | `""`                                     |
-| `fullnameOverride`       | Override charts and release name                  | `""`                                     |
-| `replicaCount`           | Number of replica                                 | `1`                                      |
-| `image.repository`       | Repository for the webhook image                  | `scaleway/cert-manager-webhook-scaleway` |
-| `image.pullPolicy`       | Image pull policy                                 | `IfNotPresent`                           |
-| `image.imagePullSecrets` | Image pull secrets                                | `[]`                                     |
-| `image.tag`              | Tag for the webhook image, defaults to AppVersion | `""`                                     |
-| `service.type`           | Service type exposing the webhook                 | `ClusterIP`                              |
-| `service.port`           | Service port exposing the webhook                 | `443`                                    |
-| `resources`              | Resources definition                              | `{}`                                     |
-| `podLabels`              | Pod labels definition                             | `{}`                                     |
-| `nodeSelector`           | Node selector                                     | `{}`                                     |
-| `tolerations`            | Tolerations                                       | `[]`                                     |
-| `affinity`               | Affinities                                        | `{}`                                     |
+| Name                     | Description                                                        | Value                                    |
+| ------------------------ | ------------------------------------------------------------------ | ---------------------------------------- |
+| `nameOverride`           | Override charts name                                               | `""`                                     |
+| `fullnameOverride`       | Override charts and release name                                   | `""`                                     |
+| `replicaCount`           | Number of replica                                                  | `1`                                      |
+| `image.repository`       | Repository for the webhook image                                   | `scaleway/cert-manager-webhook-scaleway` |
+| `image.pullPolicy`       | Image pull policy                                                  | `IfNotPresent`                           |
+| `image.imagePullSecrets` | Image pull secrets                                                 | `[]`                                     |
+| `image.tag`              | Tag for the webhook image, defaults to AppVersion                  | `""`                                     |
+| `extraEnv`               | Additional environment variables to pass to the webhook deployment | `[]`                                     |
+| `service.type`           | Service type exposing the webhook                                  | `ClusterIP`                              |
+| `service.port`           | Service port exposing the webhook                                  | `443`                                    |
+| `resources`              | Resources definition                                               | `{}`                                     |
+| `podLabels`              | Pod labels                                                         | `{}`                                     |
+| `nodeSelector`           | Node selector                                                      | `{}`                                     |
+| `tolerations`            | Tolerations                                                        | `[]`                                     |
+| `affinity`               | Affinities                                                         | `{}`                                     |
 
