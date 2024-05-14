@@ -19,7 +19,7 @@ spec:
         app: {{ include "scaleway-webhook.name" . }}
         release: {{ .Release.Name }}
         {{- with .Values.podLabels }}
-        {{ toYaml .Values.podLabels | indent 8 }}
+        {{ toYaml . | indent 8 }}
         {{- end }}
     spec:
       serviceAccountName: {{ include "scaleway-webhook.fullname" . }}
