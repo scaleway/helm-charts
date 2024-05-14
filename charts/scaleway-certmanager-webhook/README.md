@@ -46,6 +46,7 @@ Common parameters.
 | `service.type`           | Service type exposing the webhook                 | `ClusterIP`                              |
 | `service.port`           | Service port exposing the webhook                 | `443`                                    |
 | `resources`              | Resources definition                              | `{}`                                     |
+| `podLabels`              | Pod labels definition                             | `{}`                                     |
 | `nodeSelector`           | Node selector                                     | `{}`                                     |
 | `tolerations`            | Tolerations                                       | `[]`                                     |
 | `affinity`               | Affinities                                        | `{}`                                     |
