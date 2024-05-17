@@ -51,4 +51,4 @@ Common parameters.
 | `nodeSelector`           | Node selector                                                      | `{}`                                     |
 | `tolerations`            | Tolerations                                                        | `[]`                                     |
 | `affinity`               | Affinities                                                         | `{}`                                     |
-
+| `securityContext`        | Deployment securityContext                                         | `{}`                                     |

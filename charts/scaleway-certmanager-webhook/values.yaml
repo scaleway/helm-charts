@@ -86,3 +86,9 @@ tolerations: []
 
 ## @param affinity Affinities
 affinity: {}
+
+## @param securityContext Security context
+securityContext: {}
+  # runAsNonRoot: true
+  # runAsUser:  1000
+  # runAsGroup: 1000
