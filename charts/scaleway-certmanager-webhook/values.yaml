@@ -86,3 +86,15 @@ tolerations: []
 
 ## @param affinity Affinities
 affinity: {}
+
+## @param securityContext Container security context
+securityContext: {}
+  # runAsNonRoot: true
+  # runAsUser:  1000
+  # runAsGroup: 1000
+
+## @param podSecurityContext Pod security context
+podSecurityContext: {}
+  # runAsNonRoot: true
+  # runAsUser:  1000
+  # runAsGroup: 1000
