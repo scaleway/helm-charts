@@ -87,7 +87,7 @@ tolerations: []
 ## @param affinity Affinities
 affinity: {}
 
-## @param securityContext Deployment security context
+## @param securityContext Container security context
 securityContext: {}
   # runAsNonRoot: true
   # runAsUser:  1000
