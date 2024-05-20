@@ -52,3 +52,4 @@ Common parameters.
 | `tolerations`            | Tolerations                                                        | `[]`                                     |
 | `affinity`               | Affinities                                                         | `{}`                                     |
 | `securityContext`        | Deployment securityContext                                         | `{}`                                     |
+| `podSecurityContext`     | Pod securityContext                                                | `{}`                                     |
