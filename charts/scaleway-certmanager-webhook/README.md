@@ -46,6 +46,7 @@ Common parameters.
 | `extraEnv`               | Additional environment variables to pass to the webhook deployment | `[]`                                     |
 | `service.type`           | Service type exposing the webhook                                  | `ClusterIP`                              |
 | `service.port`           | Service port exposing the webhook                                  | `443`                                    |
+| `listenPort`             | Port the webhook listens on                                        | `443`                                    |
 | `resources`              | Resources definition                                               | `{}`                                     |
 | `podLabels`              | Pod labels                                                         | `{}`                                     |
 | `nodeSelector`           | Node selector                                                      | `{}`                                     |

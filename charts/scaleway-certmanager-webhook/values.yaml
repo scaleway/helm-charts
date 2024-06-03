@@ -56,6 +56,9 @@ extraEnv: []
 # - name: SOME_VAR
 #   value: 'some value'
 
+## @param listenPort Port the webhook listens on
+listenPort: 443
+
 ## @param service.type Service type exposing the webhook
 ## @param service.port Service port exposing the webhook
 service:
