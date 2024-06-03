@@ -1,0 +1,33 @@
+scaleway:
+  access_key: ""
+  secret_key: ""
+  default_project_id: ""
+  default_region: ""
+
+image:
+  repository: scaleway/scaleway-cloud-controller-manager
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+secret:
+  create: true
+  # Overrides the default secret name.
+  name: ""
+
+serviceAccount:
+  create: true
+  annotations: {}
+  # Overrides the service account name name.
+  name: ""
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 50Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
