@@ -40,7 +40,7 @@ spec:
             {{- with .Values.extraEnv }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
-          {{- if and .Values.secret.accessKey .Values.secret.secretKey }}
+          {{- if .Values.secret.name }}
           envFrom:
           - secretRef:
               name: {{ .Values.secret.name }}
