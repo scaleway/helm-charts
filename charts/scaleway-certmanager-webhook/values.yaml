@@ -58,9 +58,13 @@ extraEnv: []
 
 ## @param service.type Service type exposing the webhook
 ## @param service.port Service port exposing the webhook
+## @param service.ipFamilyPolicy Service ipFamilyPolicy set the ip family policy to configure dual-stack
+## @param service.ipFamilyPolicy Service ipFamilies. Can be IPv4 and/or IPv6.
 service:
   type: ClusterIP
   port: 443
+  ipFamilyPolicy: ""
+  ipFamilies: []
 
 ## @param resources Resources definition
 resources: {}
