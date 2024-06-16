@@ -44,6 +44,6 @@ Create chart name and version as used by the chart label.
 {{- end -}}
 
 {{- define "scaleway-webhook.servingCertificate" -}}
-{{ printf "%s-webhook-tls" (include "scaleway-webhook.fullname" .) }}
+{{ printf "%s-tls" (include "scaleway-webhook.fullname" .) }}
 {{- end -}}
 
