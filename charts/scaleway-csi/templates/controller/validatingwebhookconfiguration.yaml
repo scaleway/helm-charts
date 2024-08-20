@@ -24,13 +24,36 @@ webhooks:
   - apiGroups:   ["snapshot.storage.k8s.io"]
     apiVersions: ["v1"]
     operations:  ["CREATE", "UPDATE"]
-    resources:   ["volumesnapshots", "volumesnapshotcontents", "volumesnapshotclasses"]
+    resources:   ["volumesnapshotclasses"]
     scope:       "*"
   clientConfig:
     service:
       namespace: {{ .Release.Namespace}}
       name: {{ include "scaleway-csi.fullname" . }}-snapshot-validation
       path: "/volumesnapshot"
+    caBundle: {{ $ca.Cert | b64enc | quote }}
+  admissionReviewVersions: ["v1"]
+  sideEffects: None
+  failurePolicy: Ignore
+  timeoutSeconds: 2
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: "validation-webhook.groupsnapshot.storage.k8s.io"
+webhooks:
+- name: "validation-webhook.groupsnapshot.storage.k8s.io"
+  rules:
+  - apiGroups:   ["groupsnapshot.storage.k8s.io"]
+    apiVersions: ["v1alpha1"]
+    operations:  ["CREATE", "UPDATE"]
+    resources:   ["volumegroupsnapshotclasses"]
+    scope:       "*"
+  clientConfig:
+    service:
+      namespace: {{ .Release.Namespace}}
+      name: {{ include "scaleway-csi.fullname" . }}-snapshot-validation
+      path: "/volumegroupsnapshot"
     caBundle: {{ $ca.Cert | b64enc | quote }}
   admissionReviewVersions: ["v1"]
   sideEffects: None

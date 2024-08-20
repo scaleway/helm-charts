@@ -42,6 +42,22 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- if .Values.controller.migration.enabled }}
+      initContainers:
+        - name: migration
+          image: "{{ .Values.controller.migration.image.repository }}:{{ .Values.controller.migration.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.controller.migration.image.pullPolicy }}
+          command: ["/sbs-migration"]
+          envFrom:
+            - secretRef:
+              {{- if .Values.controller.scaleway.existingSecretName }}
+                name: {{ .Values.controller.scaleway.existingSecretName }}
+              {{- else }}
+                name: {{ include "scaleway-csi.fullname" . }}-secret
+              {{- end }}
+          resources:
+            {{- toYaml .Values.controller.migration.resources | nindent 12 }}
+      {{- end }}
       containers:
         - name: scaleway-csi-plugin
           image: "{{ .Values.controller.driver.image.repository }}:{{ .Values.controller.driver.image.tag | default .Chart.AppVersion }}"
