@@ -40,10 +40,14 @@ spec:
             {{- with .Values.extraEnv }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
-          {{- if .Values.secret.name }}
+          {{- if and .Values.secret.accessKey .Values.secret.secretKey }}
           envFrom:
           - secretRef:
               name: {{ .Values.secret.name }}
+          {{- else if .Values.secret.externalSecretName }}
+          envFrom:
+          - secretRef:
+              name: {{ .Values.secret.externalSecretName }}
           {{- end }}
           ports:
             - name: https
