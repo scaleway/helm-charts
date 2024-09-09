@@ -194,6 +194,12 @@ controller:
 node:
   enabled: true
 
+  # Update this according to the Kubernetes distribution you are using:
+  # - Standard: /var/lib/kubelet
+  # - k0s: /var/lib/k0s/kubelet
+  # - microk8s: /var/snap/microk8s/common/var/lib/kubelet
+  kubeletDir: /var/lib/kubelet
+
   podAnnotations: {}
   nodeSelector:
     kubernetes.io/os: linux
