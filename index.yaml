@@ -144,6 +144,24 @@ entries:
   scaleway-csi:
   - apiVersion: v2
     appVersion: v0.2.3
+    created: "2024-09-09T15:44:01.458780312Z"
+    description: A Helm chart for the Scaleway CSI plugin
+    digest: d8d7105c57d7010bc6fe2d869e85cc958b1f01396d184ab96e3f2e86ed5d1f4b
+    home: https://github.com/scaleway/scaleway-csi
+    keywords:
+    - scaleway
+    - csi
+    - pvc
+    kubeVersion: '>= 1.20.0'
+    name: scaleway-csi
+    sources:
+    - https://github.com/scaleway/scaleway-csi
+    type: application
+    urls:
+    - https://github.com/scaleway/helm-charts/releases/download/scaleway-csi-0.1.3/scaleway-csi-0.1.3.tgz
+    version: 0.1.3
+  - apiVersion: v2
+    appVersion: v0.2.3
     created: "2023-10-10T16:26:18.29807367Z"
     description: A Helm chart for the Scaleway CSI plugin
     digest: 56f33f084b68e8f7bd0d47ca5b896f87eed69d857c840762edbebf083a20e800
@@ -196,4 +214,4 @@ entries:
     urls:
     - https://github.com/scaleway/helm-charts/releases/download/scaleway-csi-0.1.0/scaleway-csi-0.1.0.tgz
     version: 0.1.0
-generated: "2024-05-20T08:40:00.833526384Z"
+generated: "2024-09-09T15:44:01.45882251Z"
