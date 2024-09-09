@@ -73,7 +73,7 @@ spec:
             - name: plugin-dir
               mountPath: /csi
             - name: kubelet-dir
-              mountPath: /var/lib/kubelet
+              mountPath: {{ .Values.node.kubeletDir }}
               mountPropagation: "Bidirectional"
             - name: device-dir
               mountPath: /dev
@@ -89,7 +89,7 @@ spec:
             - name: CSI_ADDRESS
               value: /csi/csi.sock
             - name: KUBELET_REGISTRATION_PATH
-              value: /var/lib/kubelet/plugins/csi.scaleway.com/csi.sock
+              value: {{ .Values.node.kubeletDir }}/plugins/csi.scaleway.com/csi.sock
             - name: KUBE_NODE_NAME
               valueFrom:
                 fieldRef:
@@ -120,15 +120,15 @@ spec:
       volumes:
         - name: registration-dir
           hostPath:
-            path: /var/lib/kubelet/plugins_registry/
+            path: {{ .Values.node.kubeletDir }}/plugins_registry/
             type: DirectoryOrCreate
         - name: plugin-dir
           hostPath:
-            path: /var/lib/kubelet/plugins/csi.scaleway.com
+            path: {{ .Values.node.kubeletDir }}/plugins/csi.scaleway.com
             type: DirectoryOrCreate
         - name: kubelet-dir
           hostPath:
-            path: /var/lib/kubelet
+            path: {{ .Values.node.kubeletDir }}
             type: Directory
         - name: device-dir
           hostPath:
