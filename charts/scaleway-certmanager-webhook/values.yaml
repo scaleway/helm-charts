@@ -22,10 +22,12 @@ pki:
 ## @param secret.accessKey Default scaleway access key (optional)
 ## @param secret.secretKey Default scaleway secret key (optional)
 ## @param secret.name Secret name for the default scaleway credentials
+## @param secret.externalSecretName Existing secret name for the default scaleway credentials
 secret:
   accessKey: ""
   secretKey: ""
   name: scaleway-webhook-secret
+  externalSecretName: ""
 
 ## @section Common configuration
 ##
