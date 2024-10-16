@@ -15,13 +15,13 @@ storageClasses:
   - name: scw-bssd
     default: true
     reclaimPolicy: Delete
-    volumeBindingMode: Immediate
+    volumeBindingMode: WaitForFirstConsumer
     allowVolumeExpansion: true
     parameters: {}
   - name: scw-bssd-retain
     default: false
     reclaimPolicy: Retain
-    volumeBindingMode: Immediate
+    volumeBindingMode: WaitForFirstConsumer
     allowVolumeExpansion: true
     parameters: {}
 
@@ -76,6 +76,21 @@ controller:
       # Overrides the image tag whose default is the chart appVersion.
       tag: ""
 
+  migration:
+    enabled: true
+    resources: {}
+      # limits:
+      #   cpu: 100m
+      #   memory: 128Mi
+      # requests:
+      #   cpu: 100m
+      #   memory: 128Mi
+    image:
+      repository: scaleway/scaleway-csi
+      pullPolicy: IfNotPresent
+      # Overrides the image tag whose default is the chart appVersion.
+      tag: ""
+
   provisioner:
     enabled: true
     defaultFSType: ext4
@@ -89,7 +104,7 @@ controller:
     image:
       repository: registry.k8s.io/sig-storage/csi-provisioner
       pullPolicy: IfNotPresent
-      tag: v3.5.0
+      tag: v5.0.2
 
   attacher:
     enabled: true
@@ -103,7 +118,7 @@ controller:
     image:
       repository: registry.k8s.io/sig-storage/csi-attacher
       pullPolicy: IfNotPresent
-      tag: v4.3.0
+      tag: v4.6.1
 
   snapshotter:
     enabled: true
@@ -117,7 +132,7 @@ controller:
     image:
       repository: registry.k8s.io/sig-storage/csi-snapshotter
       pullPolicy: IfNotPresent
-      tag: v6.2.2
+      tag: v8.0.1
 
   snapshotController:
     enabled: true
@@ -131,7 +146,7 @@ controller:
     image:
       repository: registry.k8s.io/sig-storage/snapshot-controller
       pullPolicy: IfNotPresent
-      tag: v6.2.2
+      tag: v8.0.1
 
   webhook:
     enabled: true
@@ -145,7 +160,7 @@ controller:
     image:
       repository: registry.k8s.io/sig-storage/snapshot-validation-webhook
       pullPolicy: IfNotPresent
-      tag: v6.2.2
+      tag: v8.0.1
 
   resizer:
     enabled: true
@@ -159,7 +174,7 @@ controller:
     image:
       repository: registry.k8s.io/sig-storage/csi-resizer
       pullPolicy: IfNotPresent
-      tag: v1.8.0
+      tag: v1.11.2
 
   liveness:
     enabled: true
@@ -173,11 +188,17 @@ controller:
     image:
       repository: registry.k8s.io/sig-storage/livenessprobe
       pullPolicy: IfNotPresent
-      tag: v2.10.0
+      tag: v2.13.1
 
 # CSI Node DaemonSet.
 node:
   enabled: true
+
+  # Update this according to the Kubernetes distribution you are using:
+  # - Standard: /var/lib/kubelet
+  # - k0s: /var/lib/k0s/kubelet
+  # - microk8s: /var/snap/microk8s/common/var/lib/kubelet
+  kubeletDir: /var/lib/kubelet
 
   podAnnotations: {}
   nodeSelector:
@@ -213,7 +234,7 @@ node:
     image:
       repository: registry.k8s.io/sig-storage/csi-node-driver-registrar
       pullPolicy: IfNotPresent
-      tag: v2.8.0
+      tag: v2.11.1
 
   liveness:
     enabled: true
@@ -227,4 +248,4 @@ node:
     image:
       repository: registry.k8s.io/sig-storage/livenessprobe
       pullPolicy: IfNotPresent
-      tag: v2.10.0
+      tag: v2.13.1
