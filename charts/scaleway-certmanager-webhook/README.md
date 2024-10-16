@@ -34,23 +34,25 @@ Configuration parameters.
 
 Common parameters.
 
-| Name                     | Description                                                        | Value                                    |
-| ------------------------ | ------------------------------------------------------------------ | ---------------------------------------- |
-| `nameOverride`           | Override charts name                                               | `""`                                     |
-| `fullnameOverride`       | Override charts and release name                                   | `""`                                     |
-| `replicaCount`           | Number of replica                                                  | `1`                                      |
-| `image.repository`       | Repository for the webhook image                                   | `scaleway/cert-manager-webhook-scaleway` |
-| `image.pullPolicy`       | Image pull policy                                                  | `IfNotPresent`                           |
-| `image.imagePullSecrets` | Image pull secrets                                                 | `[]`                                     |
-| `image.tag`              | Tag for the webhook image, defaults to AppVersion                  | `""`                                     |
-| `extraEnv`               | Additional environment variables to pass to the webhook deployment | `[]`                                     |
-| `service.type`           | Service type exposing the webhook                                  | `ClusterIP`                              |
-| `service.port`           | Service port exposing the webhook                                  | `443`                                    |
-| `listenPort`             | Port the webhook listens on                                        | `443`                                    |
-| `resources`              | Resources definition                                               | `{}`                                     |
-| `podLabels`              | Pod labels                                                         | `{}`                                     |
-| `nodeSelector`           | Node selector                                                      | `{}`                                     |
-| `tolerations`            | Tolerations                                                        | `[]`                                     |
-| `affinity`               | Affinities                                                         | `{}`                                     |
-| `securityContext`        | Container securityContext                                          | `{}`                                     |
-| `podSecurityContext`     | Pod securityContext                                                | `{}`                                     |
+| Name                     | Description                                                             | Value                                    |
+| ------------------------ | ----------------------------------------------------------------------- | ---------------------------------------- |
+| `nameOverride`           | Override charts name                                                    | `""`                                     |
+| `fullnameOverride`       | Override charts and release name                                        | `""`                                     |
+| `replicaCount`           | Number of replica                                                       | `1`                                      |
+| `image.repository`       | Repository for the webhook image                                        | `scaleway/cert-manager-webhook-scaleway` |
+| `image.pullPolicy`       | Image pull policy                                                       | `IfNotPresent`                           |
+| `image.imagePullSecrets` | Image pull secrets                                                      | `[]`                                     |
+| `image.tag`              | Tag for the webhook image, defaults to AppVersion                       | `""`                                     |
+| `extraEnv`               | Additional environment variables to pass to the webhook deployment      | `[]`                                     |
+| `service.type`           | Service type exposing the webhook                                       | `ClusterIP`                              |
+| `service.port`           | Service port exposing the webhook                                       | `443`                                    |
+| `listenPort`             | Port the webhook listens on                                             | `443`                                    |
+| `service.ipFamilyPolicy` | Service ipFamilyPolicy set the ip family policy to configure dual-stack | `""`                                     |
+| `service.ipFamilies`     | Service ipFamilies. Can be IPv4 and/or IPv6.                            | `[]`                                     |
+| `resources`              | Resources definition                                                    | `{}`                                     |
+| `podLabels`              | Pod labels                                                              | `{}`                                     |
+| `nodeSelector`           | Node selector                                                           | `{}`                                     |
+| `tolerations`            | Tolerations                                                             | `[]`                                     |
+| `affinity`               | Affinities                                                              | `{}`                                     |
+| `securityContext`        | Container securityContext                                               | `{}`                                     |
+| `podSecurityContext`     | Pod securityContext                                                     | `{}`                                     |
