@@ -150,6 +150,29 @@ entries:
     urls:
     - https://github.com/scaleway/helm-charts/releases/download/scaleway-certmanager-webhook-0.1.0/scaleway-certmanager-webhook-0.1.0.tgz
     version: 0.1.0
+  scaleway-cilium-hubble:
+  - apiVersion: v2
+    appVersion: v0.1.0
+    created: "2024-12-19T16:59:41.049175583Z"
+    dependencies:
+    - name: cilium
+      repository: https://helm.cilium.io/
+      version: 1.16.3
+    description: A Helm chart for adding Hubble to Cilium managed by Scaleway
+    digest: 3a6facfd0aba3f3bc091771d38ffeb97ffb7c23ab2db4f51125fa2bc6be1020d
+    home: https://github.com/scaleway/helm-charts/scaleway-cilium-hubble
+    keywords:
+    - scaleway
+    - kapsule
+    - cilium
+    kubeVersion: '>= 1.31.0'
+    name: scaleway-cilium-hubble
+    sources:
+    - https://github.com/scaleway/helm-charts/scaleway-cilium-hubble
+    type: application
+    urls:
+    - https://github.com/scaleway/helm-charts/releases/download/scaleway-cilium-hubble-0.1.0/scaleway-cilium-hubble-0.1.0.tgz
+    version: 0.1.0
   scaleway-csi:
   - apiVersion: v2
     appVersion: v0.3.2
@@ -241,4 +264,4 @@ entries:
     urls:
     - https://github.com/scaleway/helm-charts/releases/download/scaleway-csi-0.1.0/scaleway-csi-0.1.0.tgz
     version: 0.1.0
-generated: "2024-10-16T09:00:34.770742115Z"
+generated: "2024-12-19T16:59:41.049214165Z"
