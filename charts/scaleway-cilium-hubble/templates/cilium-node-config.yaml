@@ -1,0 +1,16 @@
+# Per node config to enable Hubble
+apiVersion: cilium.io/v2
+kind: CiliumNodeConfig
+metadata:
+  name: enable-hubble
+  namespace: {{ .Release.Namespace }}
+  {{- with .Values.cilium.hubble.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  labels: {{- include "scaleway-cilium-hubble.labels" . | nindent 4 }}
+spec:
+  nodeSelector:
+    matchLabels: {} # match all nodes
+  defaults:
+    {{- toYaml .Values.nodeConfig | nindent 4 }}
