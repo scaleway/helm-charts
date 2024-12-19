@@ -1,0 +1,31 @@
+# source: https://github.com/cilium/cilium/blob/v1.16.3/install/kubernetes/cilium/templates/hubble/peer-service.yaml
+#
+# With the following changes:
+# removed the condition to have the agent enabled
+# added the `cilium` top level key
+# changed the labels
+{{- if .Values.cilium.hubble.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: hubble-peer
+  namespace: {{ .Release.Namespace }}
+  {{- with .Values.cilium.hubble.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  labels: {{- include "scaleway-cilium-hubble.labels" . | nindent 4 }}
+spec:
+  selector:
+    k8s-app: cilium
+  ports:
+  - name: peer-service
+    {{- if .Values.cilium.hubble.peerService.servicePort }}
+    port: {{ .Values.cilium.hubble.peerService.servicePort }}
+    {{- else }}
+    port: {{ .Values.cilium.hubble.tls.enabled | ternary 443 80 }}
+    {{- end }}
+    protocol: TCP
+    targetPort: {{ .Values.cilium.hubble.peerService.targetPort }}
+  internalTrafficPolicy: Local
+{{- end }}

@@ -1,0 +1,5 @@
+The scaleway-cilium-hubble chart was successfully installed.
+You may now restart cilium agents:
+  kubectl -n kube-system rollout restart daemonset cilium
+
+Have fun!
