@@ -7,6 +7,7 @@ This charts deploys Hubble as an add-on to Scaleway Kubernetes clusters.
 ## Requirements
 
 * Scaleway Kubernetes cluster >= 1.31.0
+* Cilium CNI selected upon cluster creation
 
 ## Installation
 
@@ -23,6 +24,8 @@ You'll then need to rollout cilium agents to load the new configuration:
 ```sh
 kubectl -n kube-system rollout restart daemonset cilium
 ```
+
+> You can check the rollout progress using `kubectl -n kube-system rollout status daemonset cilium`
 
 ## Configuration
 
@@ -47,14 +50,10 @@ For other parameters, refer to cilium's own chart documentation under the `ciliu
 
 ## Usage
 
-Once the chart is installed, you can forward the relay port to the local machine:
+Once the chart is installed, you can forward Hubble UI to the local machine:
 
 ```sh
-cilium hubble port-forward
+kubectl -n kube-system port-forward svc/hubble-ui 12000:80
 ```
 
-Then open Hubble ui:
-
-```sh
-cilium hubble ui
-```
+Then open Hubble UI in a browser at `https://localhost:12000`
