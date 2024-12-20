@@ -1,3 +1,9 @@
+{{- if ne .Release.Namespace "kube-system" }}
+{{- fail "Add-On Chart MUST be deployed in the namespace 'kube-system'" }}
+{{- end }}
+{{- if or .Values.cilium.agent .Values.cilium.operator.enabled .Values.cilium.envoy.enabled }}
+{{- fail "Cilium agent, operator or envoy MUST NOT be enabled" }}
+{{- end }}
 # Per node config to enable Hubble
 apiVersion: cilium.io/v2
 kind: CiliumNodeConfig
