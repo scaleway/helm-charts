@@ -152,6 +152,28 @@ entries:
     version: 0.1.0
   scaleway-cilium-hubble:
   - apiVersion: v2
+    appVersion: v1.16.4
+    created: "2024-12-20T13:43:58.999763035Z"
+    dependencies:
+    - name: cilium
+      repository: https://helm.cilium.io/
+      version: 1.16.4
+    description: A Helm chart for adding Hubble to Cilium managed by Scaleway
+    digest: 8eb251fc9414eb1a0fd2ac5cd1dd75b40bffda2ac7e7af33282717186d10b1cb
+    home: https://github.com/scaleway/helm-charts/scaleway-cilium-hubble
+    keywords:
+    - scaleway
+    - kapsule
+    - cilium
+    kubeVersion: '>= 1.31.0'
+    name: scaleway-cilium-hubble
+    sources:
+    - https://github.com/scaleway/helm-charts/scaleway-cilium-hubble
+    type: application
+    urls:
+    - https://github.com/scaleway/helm-charts/releases/download/scaleway-cilium-hubble-0.1.1/scaleway-cilium-hubble-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
     appVersion: v0.1.0
     created: "2024-12-19T16:59:41.049175583Z"
     dependencies:
@@ -264,4 +286,4 @@ entries:
     urls:
     - https://github.com/scaleway/helm-charts/releases/download/scaleway-csi-0.1.0/scaleway-csi-0.1.0.tgz
     version: 0.1.0
-generated: "2024-12-19T16:59:41.049214165Z"
+generated: "2024-12-20T13:43:58.999788122Z"
