@@ -2,6 +2,8 @@
 
 This charts deploys Hubble as an add-on to Scaleway Kubernetes clusters.
 
+> This chart MUST be deployed in the `kube-system` namespace !
+
 ## Requirements
 
 * Scaleway Kubernetes cluster >= 1.31.0
@@ -13,7 +15,7 @@ To add the Scaleway Helm repository and install the chart from there, use the fo
 ```sh
 helm repo add scaleway https://helm.scw.cloud/
 helm repo update
-helm upgrade --install scaleway-cilium-hubble scaleway/scaleway-cilium-hubble
+helm -n kube-system upgrade --install scaleway-cilium-hubble scaleway/scaleway-cilium-hubble
 ```
 
 You'll then need to rollout cilium agents to load the new configuration:
@@ -41,7 +43,7 @@ The following table lists the configurable parameters of the Scaleway Cilium Hub
 
 For other parameters, refer to cilium's own chart documentation under the `cilium` top level key.
 
-> Make sure not to enable the `operator`/`envoy`/`agent` as it will break the managed `cilium`.
+> Make sure **NOT** to enable the `operator`/`envoy`/`agent` as it will break the managed `cilium`.
 
 ## Usage
 
