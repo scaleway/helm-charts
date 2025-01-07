@@ -56,4 +56,4 @@ Once the chart is installed, you can forward Hubble UI to the local machine:
 kubectl -n kube-system port-forward svc/hubble-ui 12000:80
 ```
 
-Then open Hubble UI in a browser at `https://localhost:12000`
+Then open Hubble UI in a browser at `http://localhost:12000`
