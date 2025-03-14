@@ -1,3 +1,7 @@
+networkPolicies:
+  # Allow hubble-relay and hubble-ui to connect
+  enabled: false
+
 nodeConfig:
   # Enable Hubble gRPC service.
   enable-hubble: "true"
