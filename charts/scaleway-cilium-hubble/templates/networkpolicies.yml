@@ -12,7 +12,6 @@ spec:
   egress:
     - toEndpoints:
         - matchLabels:
-            "k8s:io.kubernetes.pod.namespace": "kube-system"
             "k8s:k8s-app": "kube-dns"
       toPorts:
         - ports:
@@ -20,7 +19,7 @@ spec:
               protocol: ANY
           rules:
             dns:
-              - matchPattern: "*"
+              - matchPattern: "hubble-peer.kube-system.svc.cluster.local"
     - toEntities:
         - host
         - remote-node
@@ -45,7 +44,6 @@ spec:
   egress:
     - toEndpoints:
         - matchLabels:
-            "k8s:io.kubernetes.pod.namespace": "kube-system"
             "k8s:k8s-app": "kube-dns"
       toPorts:
         - ports:
@@ -53,7 +51,7 @@ spec:
               protocol: ANY
           rules:
             dns:
-              - matchPattern: "*"
+              - matchPattern: "hubble-relay.kube-system.svc.cluster.local"
     - toEndpoints:
         - matchLabels:
             "k8s:k8s-app": "hubble-relay"
