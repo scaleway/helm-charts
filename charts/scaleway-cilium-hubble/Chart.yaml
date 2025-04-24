@@ -2,7 +2,7 @@ apiVersion: v2
 name: scaleway-cilium-hubble
 description: A Helm chart for adding Hubble to Cilium managed by Scaleway
 type: application
-version: 0.1.1
+version: 0.1.2
 appVersion: "v1.17.3"
 sources:
   - https://github.com/scaleway/helm-charts/scaleway-cilium-hubble
