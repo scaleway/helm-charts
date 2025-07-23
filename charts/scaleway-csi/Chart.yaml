@@ -2,8 +2,8 @@ apiVersion: v2
 name: scaleway-csi
 description: A Helm chart for the Scaleway CSI plugin
 type: application
-version: 0.2.0
-appVersion: "v0.3.2"
+version: 0.2.1
+appVersion: "v0.3.4"
 sources:
   - https://github.com/scaleway/scaleway-csi
 home: https://github.com/scaleway/scaleway-csi

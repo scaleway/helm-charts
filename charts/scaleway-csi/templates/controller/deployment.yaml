@@ -13,9 +13,8 @@ spec:
   replicas: {{ .Values.controller.replicaCount}}
   template:
     metadata:
-      annotations:
-        checksum/webhook-secret: {{ include (print $.Template.BasePath "/controller/validatingwebhookconfiguration.yaml") . | sha256sum }}
       {{- with .Values.controller.podAnnotations }}
+      annotations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
@@ -41,22 +40,6 @@ spec:
       {{- with .Values.controller.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- if .Values.controller.migration.enabled }}
-      initContainers:
-        - name: migration
-          image: "{{ .Values.controller.migration.image.repository }}:{{ .Values.controller.migration.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.controller.migration.image.pullPolicy }}
-          command: ["/sbs-migration"]
-          envFrom:
-            - secretRef:
-              {{- if .Values.controller.scaleway.existingSecretName }}
-                name: {{ .Values.controller.scaleway.existingSecretName }}
-              {{- else }}
-                name: {{ include "scaleway-csi.fullname" . }}-secret
-              {{- end }}
-          resources:
-            {{- toYaml .Values.controller.migration.resources | nindent 12 }}
       {{- end }}
       containers:
         - name: scaleway-csi-plugin
@@ -122,6 +105,7 @@ spec:
             - "--v=5"
             - "--csi-address=$(CSI_ADDRESS)"
             - "--leader-election"
+            - "--reconcile-sync=10m"
           env:
             - name: CSI_ADDRESS
               value: /var/lib/csi/sockets/pluginproxy/csi.sock
@@ -190,26 +174,7 @@ spec:
             - name: socket-dir
               mountPath: /csi
         {{- end }}
-        {{- if .Values.controller.webhook.enabled }}
-        - name: snapshot-validation
-          image: "{{ .Values.controller.webhook.image.repository }}:{{ .Values.controller.webhook.image.tag }}"
-          imagePullPolicy: {{ .Values.controller.liveness.image.pullPolicy }}
-          args: ['--tls-cert-file=/etc/snapshot-validation-webhook/certs/tls.crt', '--tls-private-key-file=/etc/snapshot-validation-webhook/certs/tls.key']
-          ports:
-          - containerPort: 443
-          resources:
-            {{- toYaml .Values.controller.webhook.resources | nindent 12 }}
-          volumeMounts:
-            - name: snapshot-validation-webhook-certs
-              mountPath: /etc/snapshot-validation-webhook/certs
-              readOnly: true
-        {{- end }}
       volumes:
         - name: socket-dir
           emptyDir: {}
-        {{- if .Values.controller.webhook.enabled }}
-        - name: snapshot-validation-webhook-certs
-          secret:
-            secretName: {{ include "scaleway-csi.fullname" . }}-webhook
-        {{- end }}
 {{- end }}
