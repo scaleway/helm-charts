@@ -106,6 +106,15 @@ entries:
     version: 0.1.0
   scaleway-certmanager-webhook:
   - apiVersion: v2
+    appVersion: v0.1.1
+    created: "2025-07-28T14:24:15.034194223Z"
+    description: Cert-Manager webhook for Scaleway
+    digest: 61343a643a2be5a1dcfbf84fb88855c234420f47494fafbc7eb9198e7a3566e3
+    name: scaleway-certmanager-webhook
+    urls:
+    - https://github.com/scaleway/helm-charts/releases/download/scaleway-certmanager-webhook-0.4.1/scaleway-certmanager-webhook-0.4.1.tgz
+    version: 0.4.1
+  - apiVersion: v2
     appVersion: v0.1.0
     created: "2024-10-16T09:00:34.770694416Z"
     description: Cert-Manager webhook for Scaleway
@@ -308,4 +317,4 @@ entries:
     urls:
     - https://github.com/scaleway/helm-charts/releases/download/scaleway-csi-0.1.0/scaleway-csi-0.1.0.tgz
     version: 0.1.0
-generated: "2025-04-24T13:27:40.390387806Z"
+generated: "2025-07-28T14:24:15.034243868Z"
