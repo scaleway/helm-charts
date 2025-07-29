@@ -76,21 +76,6 @@ controller:
       # Overrides the image tag whose default is the chart appVersion.
       tag: ""
 
-  migration:
-    enabled: true
-    resources: {}
-      # limits:
-      #   cpu: 100m
-      #   memory: 128Mi
-      # requests:
-      #   cpu: 100m
-      #   memory: 128Mi
-    image:
-      repository: scaleway/scaleway-csi
-      pullPolicy: IfNotPresent
-      # Overrides the image tag whose default is the chart appVersion.
-      tag: ""
-
   provisioner:
     enabled: true
     defaultFSType: ext4
@@ -104,7 +89,7 @@ controller:
     image:
       repository: registry.k8s.io/sig-storage/csi-provisioner
       pullPolicy: IfNotPresent
-      tag: v5.0.2
+      tag: v5.3.0
 
   attacher:
     enabled: true
@@ -118,7 +103,7 @@ controller:
     image:
       repository: registry.k8s.io/sig-storage/csi-attacher
       pullPolicy: IfNotPresent
-      tag: v4.6.1
+      tag: v4.9.0
 
   snapshotter:
     enabled: true
@@ -132,7 +117,7 @@ controller:
     image:
       repository: registry.k8s.io/sig-storage/csi-snapshotter
       pullPolicy: IfNotPresent
-      tag: v8.0.1
+      tag: v8.3.0
 
   snapshotController:
     enabled: true
@@ -146,21 +131,7 @@ controller:
     image:
       repository: registry.k8s.io/sig-storage/snapshot-controller
       pullPolicy: IfNotPresent
-      tag: v8.0.1
-
-  webhook:
-    enabled: true
-    resources: {}
-      # limits:
-      #   cpu: 100m
-      #   memory: 128Mi
-      # requests:
-      #   cpu: 100m
-      #   memory: 128Mi
-    image:
-      repository: registry.k8s.io/sig-storage/snapshot-validation-webhook
-      pullPolicy: IfNotPresent
-      tag: v8.0.1
+      tag: v8.3.0
 
   resizer:
     enabled: true
@@ -174,7 +145,7 @@ controller:
     image:
       repository: registry.k8s.io/sig-storage/csi-resizer
       pullPolicy: IfNotPresent
-      tag: v1.11.2
+      tag: v1.14.0
 
   liveness:
     enabled: true
@@ -188,7 +159,7 @@ controller:
     image:
       repository: registry.k8s.io/sig-storage/livenessprobe
       pullPolicy: IfNotPresent
-      tag: v2.13.1
+      tag: v2.16.0
 
 # CSI Node DaemonSet.
 node:
@@ -234,7 +205,7 @@ node:
     image:
       repository: registry.k8s.io/sig-storage/csi-node-driver-registrar
       pullPolicy: IfNotPresent
-      tag: v2.11.1
+      tag: v2.14.0
 
   liveness:
     enabled: true
@@ -248,4 +219,4 @@ node:
     image:
       repository: registry.k8s.io/sig-storage/livenessprobe
       pullPolicy: IfNotPresent
-      tag: v2.13.1
+      tag: v2.16.0
