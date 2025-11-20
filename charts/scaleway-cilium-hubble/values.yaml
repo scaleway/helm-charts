@@ -58,3 +58,18 @@ cilium:
     enabled: false
   envoy:
     enabled: false
+
+  # Disable namespace creation to avoid conflicts with Scaleway-managed resources
+  tls:
+    secretsNamespace:
+      create: false
+      name: ""
+  envoyConfig:
+    secretsNamespace:
+      create: false
+  ingressController:
+    secretsNamespace:
+      create: false
+  gatewayAPI:
+    secretsNamespace:
+      create: false
