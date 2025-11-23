@@ -51,7 +51,7 @@ cilium:
       enabled: true
     tls:
       auto:
-        method: cronjob
+        method: cronJob
 
   agent: false
   operator:
