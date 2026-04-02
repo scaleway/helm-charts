@@ -1,0 +1,211 @@
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+storageClasses:
+  - name: sfs-standard
+    default: false
+    reclaimPolicy: Delete
+    volumeBindingMode: WaitForFirstConsumer
+    allowVolumeExpansion: true
+    parameters: {}
+  - name: sfs-standard-retain
+    default: false
+    reclaimPolicy: Retain
+    volumeBindingMode: WaitForFirstConsumer
+    allowVolumeExpansion: true
+    parameters: {}
+
+# CSI Controller.
+controller:
+  enabled: true
+
+  replicaCount: 1
+  podAnnotations: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  # Scaleway client configuration. The configuration is done through an existing
+  # secret OR by providing environment variables through the values of this Chart.
+  # SCW_DEFAULT_ZONE, SCW_DEFAULT_PROJECT_ID, SCW_ACCESS_KEY and SCW_SECRET_KEY must be provided.
+  # Existing env vars are documented here: https://github.com/scaleway/scaleway-sdk-go/blob/master/scw/README.md#environment-variables
+  scaleway:
+    # Specify an existing secret that contains Scaleway environment variables as keys.
+    # If this field is left empty, a secret will automatically be created using the
+    # values specified in .controller.scaleway.env.
+    existingSecretName: ""
+
+    env:
+      SCW_DEFAULT_REGION: "" # e.g. fr-par
+      SCW_DEFAULT_ZONE: "" # e.g. fr-par-1
+      SCW_DEFAULT_PROJECT_ID: "" # e.g. 11111111-1111-1111-1111-111111111111
+      SCW_ACCESS_KEY: "" # e.g. ABCDEFGHIJKLMNOPQRST
+      SCW_SECRET_KEY: "" # e.g. 11111111-1111-1111-1111-111111111111
+      # SCW_API_URL: "https://api.scaleway.com"
+
+  driver:
+    resources: {}
+      # limits:
+      #   cpu: 100m
+      #   memory: 128Mi
+      # requests:
+      #   cpu: 100m
+      #   memory: 128Mi
+    image:
+      repository: scaleway/scaleway-filestorage-csi
+      pullPolicy: IfNotPresent
+      # Overrides the image tag whose default is the chart appVersion.
+      tag: ""
+
+  provisioner:
+    enabled: true
+    resources: {}
+      # limits:
+      #   cpu: 100m
+      #   memory: 128Mi
+      # requests:
+      #   cpu: 100m
+      #   memory: 128Mi
+    image:
+      repository: registry.k8s.io/sig-storage/csi-provisioner
+      pullPolicy: IfNotPresent
+      tag: v5.3.0
+
+  attacher:
+    enabled: true
+    resources: {}
+      # limits:
+      #   cpu: 100m
+      #   memory: 128Mi
+      # requests:
+      #   cpu: 100m
+      #   memory: 128Mi
+    image:
+      repository: registry.k8s.io/sig-storage/csi-attacher
+      pullPolicy: IfNotPresent
+      tag: v4.11.0
+
+  resizer:
+    enabled: true
+    resources: {}
+      # limits:
+      #   cpu: 100m
+      #   memory: 128Mi
+      # requests:
+      #   cpu: 100m
+      #   memory: 128Mi
+    image:
+      repository: registry.k8s.io/sig-storage/csi-resizer
+      pullPolicy: IfNotPresent
+      tag: v2.1.0
+
+  liveness:
+    enabled: true
+    resources: {}
+      # limits:
+      #   cpu: 100m
+      #   memory: 128Mi
+      # requests:
+      #   cpu: 100m
+      #   memory: 128Mi
+    image:
+      repository: registry.k8s.io/sig-storage/livenessprobe
+      pullPolicy: IfNotPresent
+      tag: v2.18.0
+
+# CSI Node DaemonSet.
+node:
+  enabled: true
+
+  # Update this according to the Kubernetes distribution you are using:
+  # - Standard: /var/lib/kubelet
+  # - k0s: /var/lib/k0s/kubelet
+  # - microk8s: /var/snap/microk8s/common/var/lib/kubelet
+  kubeletDir: /var/lib/kubelet
+
+  podAnnotations: {}
+  nodeSelector:
+    kubernetes.io/os: linux
+  tolerations: []
+  affinity: {}
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  driver:
+    resources: {}
+      # limits:
+      #   cpu: 100m
+      #   memory: 128Mi
+      # requests:
+      #   cpu: 100m
+      #   memory: 128Mi
+    image:
+      repository: scaleway/scaleway-filestorage-csi
+      pullPolicy: IfNotPresent
+      # Overrides the image tag whose default is the chart appVersion.
+      tag: ""
+
+  registrar:
+    enabled: true
+    resources: {}
+      # limits:
+      #   cpu: 100m
+      #   memory: 128Mi
+      # requests:
+      #   cpu: 100m
+      #   memory: 128Mi
+    image:
+      repository: registry.k8s.io/sig-storage/csi-node-driver-registrar
+      pullPolicy: IfNotPresent
+      tag: v2.16.0
+
+  liveness:
+    enabled: true
+    resources: {}
+      # limits:
+      #   cpu: 100m
+      #   memory: 128Mi
+      # requests:
+      #   cpu: 100m
+      #   memory: 128Mi
+    image:
+      repository: registry.k8s.io/sig-storage/livenessprobe
+      pullPolicy: IfNotPresent
+      tag: v2.18.0
+
+# CSI Node Discovery DaemonSet.
+discovery:
+  enabled: true
+
+  podAnnotations: {}
+  nodeSelector:
+    kubernetes.io/os: linux
+  tolerations: []
+  affinity: {}
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  resources: {}
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+  image:
+    repository: scaleway/scaleway-filestorage-csi
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: ""

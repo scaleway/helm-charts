@@ -1,0 +1,16 @@
+apiVersion: v2
+name: scaleway-filestorage-csi
+description: A Helm chart for the Scaleway FileStorage CSI plugin
+type: application
+version: 0.0.1
+appVersion: "v0.0.3"
+sources:
+  - https://github.com/scaleway/scaleway-filestorage-csi
+home: https://github.com/scaleway/scaleway-filestorage-csi
+keywords:
+  - scaleway
+  - csi
+  - pvc
+  - filestorage
+  - rwx
+kubeVersion: ">= 1.25.0"
