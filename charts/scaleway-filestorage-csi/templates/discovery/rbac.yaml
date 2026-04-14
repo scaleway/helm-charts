@@ -1,0 +1,27 @@
+{{- if .Values.discovery.enabled }}
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ include "scaleway-filestorage-csi.fullname" . }}-node-discovery
+  labels:
+    {{- include "scaleway-filestorage-csi.labels" . | nindent 4 }}
+rules:
+  - apiGroups: [""]
+    resources: ["nodes"]
+    verbs: ["get", "patch", "update"]
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ include "scaleway-filestorage-csi.fullname" . }}-node-discovery
+  labels:
+    {{- include "scaleway-filestorage-csi.labels" . | nindent 4 }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "scaleway-filestorage-csi.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: ClusterRole
+  name: {{ include "scaleway-filestorage-csi.fullname" . }}-node-discovery
+  apiGroup: rbac.authorization.k8s.io
+{{- end }}

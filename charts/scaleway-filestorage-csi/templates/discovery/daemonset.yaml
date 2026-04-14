@@ -1,0 +1,59 @@
+{{- if .Values.discovery.enabled }}
+kind: DaemonSet
+apiVersion: apps/v1
+metadata:
+  name: {{ include "scaleway-filestorage-csi.fullname" . }}-node-discovery
+  labels:
+    {{- include "scaleway-filestorage-csi.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "scaleway-filestorage-csi.selectorLabels" . | nindent 6 }}
+      app: {{ include "scaleway-filestorage-csi.fullname" . }}-node-discovery
+  template:
+    metadata:
+      {{- with .Values.discovery.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "scaleway-filestorage-csi.selectorLabels" . | nindent 8 }}
+        app: {{ include "scaleway-filestorage-csi.fullname" . }}-node-discovery
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.discovery.podSecurityContext | nindent 8 }}
+      serviceAccount: {{ include "scaleway-filestorage-csi.serviceAccountName" . }}
+      {{- with .Values.discovery.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.discovery.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.discovery.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      priorityClassName: system-node-critical
+      containers:
+        - name: node-discovery
+          image: "{{ .Values.discovery.image.repository }}:{{ .Values.discovery.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.discovery.image.pullPolicy }}
+          command: ["/node-discovery"]
+          env:
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            {{- with .Values.controller.scaleway.env.SCW_API_URL }}
+            - name: SCW_API_URL
+              value: {{ . }}
+            {{- end }}
+          resources:
+            {{- toYaml .Values.discovery.resources | nindent 12 }}
+{{- end }}
