@@ -357,4 +357,25 @@ entries:
     urls:
     - https://github.com/scaleway/helm-charts/releases/download/scaleway-csi-0.1.0/scaleway-csi-0.1.0.tgz
     version: 0.1.0
-generated: "2025-11-20T15:29:02.272772699Z"
+  scaleway-filestorage-csi:
+  - apiVersion: v2
+    appVersion: v0.0.3
+    created: "2026-04-14T08:10:22.384004061Z"
+    description: A Helm chart for the Scaleway FileStorage CSI plugin
+    digest: ad98d4e2dd8170425bc0478be4a4821340d3a8e52c9bc73fcbe99bee73360222
+    home: https://github.com/scaleway/scaleway-filestorage-csi
+    keywords:
+    - scaleway
+    - csi
+    - pvc
+    - filestorage
+    - rwx
+    kubeVersion: '>= 1.25.0'
+    name: scaleway-filestorage-csi
+    sources:
+    - https://github.com/scaleway/scaleway-filestorage-csi
+    type: application
+    urls:
+    - https://github.com/scaleway/helm-charts/releases/download/scaleway-filestorage-csi-0.0.1/scaleway-filestorage-csi-0.0.1.tgz
+    version: 0.0.1
+generated: "2026-04-14T08:10:22.384060977Z"
