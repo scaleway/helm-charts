@@ -1,1 +1,0 @@
-# EasyDeploy - traefik helm chart
