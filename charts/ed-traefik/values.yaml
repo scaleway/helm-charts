@@ -1,6 +1,0 @@
-# Default values for Traefik
-image:
-  name: docker.io/traefik
-  # defaults to appVersion
-  tag: ""
-  pullPolicy: IfNotPresent
