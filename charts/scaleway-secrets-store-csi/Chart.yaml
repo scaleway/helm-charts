@@ -1,0 +1,13 @@
+apiVersion: v2
+name: scaleway-secrets-store-csi
+description: A Helm chart to install Scaleway Secret Manager Provider for Secret Store CSI Driver.
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+sources:
+  - https://github.com/scaleway/scaleway-secrets-store-csi
+home: https://github.com/scaleway/scaleway-secrets-store-csi
+keywords:
+  - scaleway
+  - secrets-store
+  - csi
