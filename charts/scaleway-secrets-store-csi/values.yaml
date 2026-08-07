@@ -1,0 +1,40 @@
+nameOverride: ""
+
+serviceAccount:
+  annotations: {}
+
+pod:
+  annotations: {}
+  priorityClassName: ""
+  image:
+    repository: scaleway/scaleway-secrets-store-csi
+    tag: "0.1.0"
+    pullPolicy: IfNotPresent
+  resources:
+    requests:
+      cpu: 50m
+      memory: 100Mi
+    limits:
+      cpu: 50m
+      memory: 100Mi
+  nodeSelector:
+    kubernetes.io/os: linux
+    kubernetes.io/arch: amd64
+  affinity: {}
+  tolerations: []
+
+provider:
+  debug: false
+  scaleway:
+    apiURL: "https://api.scaleway.com"
+    insecure: false
+    defaultOrganizationID:
+    defaultProjectID:
+    accessKey:
+      secretKeyRef:
+        name:
+        key:
+    secretKey:
+      secretKeyRef:
+        name:
+        key:

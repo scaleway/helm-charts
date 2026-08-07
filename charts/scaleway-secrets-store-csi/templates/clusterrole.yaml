@@ -1,0 +1,6 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "secrets-store-csi-driver-provider-scw.name" . }}
+  labels:
+    {{- include "secrets-store-csi-driver-provider-scw.labels" . | nindent 4 }}

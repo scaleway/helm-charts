@@ -1,0 +1,97 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: {{ include "secrets-store-csi-driver-provider-scw.name" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "secrets-store-csi-driver-provider-scw.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "secrets-store-csi-driver-provider-scw.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "secrets-store-csi-driver-provider-scw.labels" . | nindent 8 }}
+      {{- with .Values.pod.annotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+      serviceAccountName: {{ include "secrets-store-csi-driver-provider-scw.name" . }}
+      {{- if .Values.pod.priorityClassName }}
+      priorityClassName: {{ .Values.pod.priorityClassName }}
+      {{- end }}
+      containers:
+        - name: provider
+          image: "{{ .Values.pod.image.repository }}:{{ .Values.pod.image.tag }}"
+          imagePullPolicy: {{ .Values.pod.image.pullPolicy }}
+          args:
+            - -debug={{ .Values.provider.debug }}
+          env:
+            {{- if .Values.provider.scaleway.apiURL }}
+            - name: SCW_API_URL
+              value: {{ .Values.provider.scaleway.apiURL }}
+            {{- end }}
+            {{- if .Values.provider.scaleway.insecure }}
+            - name: SCW_INSECURE
+              value: {{ .Values.provider.scaleway.insecure | quote }}
+            {{- end }}
+            {{- if .Values.provider.scaleway.defaultOrganizationID }}
+            - name: SCW_DEFAULT_ORGANIZATION_ID
+              value: {{ .Values.provider.scaleway.defaultOrganizationID }}
+            {{- end }}
+            {{- if .Values.provider.scaleway.defaultProjectID }}
+            - name: SCW_DEFAULT_PROJECT_ID
+              value: {{ .Values.provider.scaleway.defaultProjectID }}
+            {{- end }}
+            {{- if .Values.provider.scaleway.defaultRegion }}
+            - name: SCW_DEFAULT_REGION
+              value: {{ .Values.provider.scaleway.defaultRegion }}
+            {{- end }}
+            {{- if .Values.provider.scaleway.accessKey.secretKeyRef.name }}
+            - name: SCW_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.provider.scaleway.accessKey.secretKeyRef.name }}
+                  key: {{ .Values.provider.scaleway.accessKey.secretKeyRef.key | default "accessKey" }}
+            {{- end }}
+            {{- if .Values.provider.scaleway.secretKey.secretKeyRef.name }}
+            - name: SCW_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.provider.scaleway.secretKey.secretKeyRef.name }}
+                  key: {{ .Values.provider.scaleway.secretKey.secretKeyRef.key | default "secretKey" }}
+            {{- end }}
+          ports:
+            - name: health
+              containerPort: 8080
+          volumeMounts:
+            - name: provider-socket
+              mountPath: /etc/kubernetes/secrets-store-csi-providers
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: health
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: health
+          resources:
+            {{- toYaml .Values.pod.resources | nindent 12 }}
+      volumes:
+        - name: provider-socket
+          hostPath:
+            path: /etc/kubernetes/secrets-store-csi-providers
+      {{- with .Values.pod.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.pod.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.pod.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
