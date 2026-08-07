@@ -24,7 +24,7 @@ spec:
       {{- end }}
       containers:
         - name: provider
-          image: "{{ .Values.pod.image.repository }}:{{ .Values.pod.image.tag }}"
+          image: "{{ .Values.pod.image.repository }}:{{ .Values.pod.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.pod.image.pullPolicy }}
           args:
             - -debug={{ .Values.provider.debug }}

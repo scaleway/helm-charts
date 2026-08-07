@@ -8,7 +8,8 @@ pod:
   priorityClassName: ""
   image:
     repository: scaleway/scaleway-secrets-store-csi
-    tag: "0.1.0"
+    # Overrides the image tag whose default is the chart appVersion.
+    tag:
     pullPolicy: IfNotPresent
   resources:
     requests:
@@ -19,7 +20,6 @@ pod:
       memory: 100Mi
   nodeSelector:
     kubernetes.io/os: linux
-    kubernetes.io/arch: amd64
   affinity: {}
   tolerations: []
 
@@ -33,8 +33,8 @@ provider:
     accessKey:
       secretKeyRef:
         name:
-        key:
+        key: accessKey
     secretKey:
       secretKeyRef:
         name:
-        key:
+        key: secretKey
