@@ -420,6 +420,24 @@ entries:
     version: 0.0.1
   scaleway-secrets-store-csi:
   - apiVersion: v2
+    appVersion: v0.1.1
+    created: "2026-08-07T10:49:01.629568513Z"
+    description: A Helm chart to install Scaleway Secret Manager Provider for Secret
+      Store CSI Driver.
+    digest: 3bbf2ba8de0de7d1f88670217041d9304c4b41ec11499d2f9d9bae53daef0b54
+    home: https://github.com/scaleway/scaleway-secrets-store-csi
+    keywords:
+    - scaleway
+    - secrets-store
+    - csi
+    name: scaleway-secrets-store-csi
+    sources:
+    - https://github.com/scaleway/scaleway-secrets-store-csi
+    type: application
+    urls:
+    - https://github.com/scaleway/helm-charts/releases/download/scaleway-secrets-store-csi-0.1.1/scaleway-secrets-store-csi-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
     appVersion: 0.1.0
     created: "2026-08-07T08:20:41.424444122Z"
     description: A Helm chart to install Scaleway Secret Manager Provider for Secret
@@ -437,4 +455,4 @@ entries:
     urls:
     - https://github.com/scaleway/helm-charts/releases/download/scaleway-secrets-store-csi-0.1.0/scaleway-secrets-store-csi-0.1.0.tgz
     version: 0.1.0
-generated: "2026-08-07T08:20:41.424515168Z"
+generated: "2026-08-07T10:49:01.629621041Z"
