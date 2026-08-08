@@ -1,0 +1,21 @@
+apiVersion: v2
+name: scaleway-cloud-controller-manager
+description: Scaleway cloud controller manager
+type: application
+version: 0.20.0
+appVersion: 0.20.1
+icon: https://images-www.scaleway.com/wp-content/uploads/2020/04/15153844/kapsule-cropped.png
+sources:
+  - https://github.com/scaleway/scaleway-cloud-controller-manager
+home: https://github.com/scaleway/scaleway-cloud-controller-manager
+maintainers:
+  - email: pcyvoct@scaleway.com
+    name: Sh4d1
+  - email: jtherin@scaleway.com
+    name: jtherin
+keywords:
+  - scaleway
+  - kubernetes
+  - ccm
+  - cloud-controller-manager
+  - loadbalancer
