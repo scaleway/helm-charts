@@ -38,6 +38,8 @@ controller:
   enabled: true
 
   replicaCount: 1
+  # Set to an empty string to omit the field entirely.
+  priorityClassName: system-cluster-critical
   podAnnotations: {}
   nodeSelector: {}
   tolerations: []
@@ -164,6 +166,9 @@ controller:
 # CSI Node DaemonSet.
 node:
   enabled: true
+
+  # Set to an empty string to omit the field entirely.
+  priorityClassName: system-node-critical
 
   # Update this according to the Kubernetes distribution you are using:
   # - Standard: /var/lib/kubelet

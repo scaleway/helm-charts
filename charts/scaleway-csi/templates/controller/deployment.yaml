@@ -27,7 +27,9 @@ spec:
       {{- end }}
       securityContext:
         {{- toYaml .Values.controller.podSecurityContext | nindent 8 }}
-      priorityClassName: system-cluster-critical
+      {{- with .Values.controller.priorityClassName }}
+      priorityClassName: {{ . }}
+      {{- end }}
       serviceAccount: {{ include "scaleway-csi.serviceAccountName" . }}
       {{- with .Values.controller.nodeSelector }}
       nodeSelector:
