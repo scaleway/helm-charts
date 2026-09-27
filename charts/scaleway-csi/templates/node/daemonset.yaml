@@ -39,7 +39,9 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      priorityClassName: system-node-critical
+      {{- with .Values.node.priorityClassName }}
+      priorityClassName: {{ . }}
+      {{- end }}
       containers:
         - name: scaleway-csi-plugin
           image: "{{ .Values.node.driver.image.repository }}:{{ .Values.node.driver.image.tag | default .Chart.AppVersion }}"
