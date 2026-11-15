@@ -77,6 +77,15 @@ spec:
           securityContext:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+      {{- with .Values.podDnsPolicy }}
+        dnsPolicy: {{ . }}
+      {{- end }}
+      {{- with .Values.podDnsConfig }}
+        dnsConfig: {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- Values.hostAliases }}
+        hostAliases: {{ toYaml . | nindent 8 }}
+      {{- end }}
       volumes:
         - name: certs
           secret:
