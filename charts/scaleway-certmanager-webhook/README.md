@@ -57,4 +57,8 @@ Common parameters.
 | `affinity`               | Affinities                                                              | `{}`                                     |
 | `securityContext`        | Container security context                                              | `{}`                                     |
 | `podSecurityContext`     | Pod security context                                                    | `{}`                                     |
+| `podDnsConfig`     | Pod dnsConfig                                                    | `{}`                                     |
+| `podDnsPolicy`     | Pod dnsPolicy                                                    | `{}`                                     |
+| `hostAliases`     | Pod hostAliases                                                    | `{}`                                     |
+
 
